@@ -19,3 +19,17 @@
 *.exe
 *.out
 *.app
+
+# VS files
+*.sdf
+*.opensdf
+*.suo
+
+# Binary output
+x64
+win32
+birman/x64
+birman/win32
+
+# SFML
+SFML-2.1
