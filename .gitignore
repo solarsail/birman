@@ -24,6 +24,8 @@
 *.sdf
 *.opensdf
 *.suo
+birman
+*.sln
 
 # Binary output
 x64
