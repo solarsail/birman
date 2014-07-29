@@ -35,3 +35,6 @@ birman/win32
 
 # SFML
 SFML-2.1
+
+# vim
+*.swp
