@@ -9,45 +9,23 @@
 #include "any.hpp"
 
 class Component;
+class GameEntityFactory;
 
-class GameEntity {
+class GameEntity : public std::enable_shared_from_this<GameEntity> {
     public:
         typedef std::function<Any(void)> PropertyCallback;
 
-        GameEntity()
-            : _self(std::shared_ptr<GameEntity>(this))
-        { }
-
-        // c must be created on the heap
-        void attachComponent(Component& c)
-        {
-            _components.insert(std::shared_ptr<Component>(&c));
-        }
+        void attachComponent(std::shared_ptr<Component> c);
             
-        std::shared_ptr<GameEntity> obtainPtr() const
-        {
-            return _self;
-        }
-
-        Any getProperty(const std::string& id)
-        {
-            assert(!_map.empty());
-            auto found = _map.find(id);
-            assert(found != _map.end());
-            return found->second();
-        }
+        void provideProperty(const std::string& id, PropertyCallback callback);
+        Any getProperty(const std::string& id);
 
     private:
-        void provideProperty(const std::string& id, PropertyCallback callback)
-        {
-            auto result = _map.insert(std::make_pair(id, callback));
-            assert(result.second);
-            assert(_map.find("test") != _map.end());
-        }
+        GameEntity();
 
         std::unordered_map<std::string, PropertyCallback> _map;
-        std::shared_ptr<GameEntity> _self;
         std::set<std::shared_ptr<Component>> _components;
 
         friend class Component;
+        friend class GameEntityFactory;
 };

@@ -4,21 +4,21 @@
 #include <memory>
 #include "entity.hpp"
 
+class ComponentFactory;
+
 class Component {
     public:
-        Component(GameEntity& entity)
-            : _entity(entity.obtainPtr())
-        {
-            _entity->attachComponent(*this);
-        }
-            
-        void provideProperty(const std::string& id, GameEntity::PropertyCallback callback)
-        {
-            _entity->provideProperty(id, callback);
-        }
+        virtual ~Component();
 
-        virtual ~Component() {};
+    protected:
+        virtual void registerProperty(std::shared_ptr<GameEntity> entity);
+
+    private:
+        Component();
 
     private:
         std::shared_ptr<GameEntity> _entity;
+
+        friend class ComponentFactory;
+        friend class GameEntity;
 };
