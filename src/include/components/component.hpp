@@ -8,13 +8,14 @@ class ComponentFactory;
 
 class Component {
     public:
+		Component();
         virtual ~Component();
 
     protected:
         virtual void registerProperty(std::shared_ptr<GameEntity> entity);
 
     private:
-        Component();
+        
 
     private:
         std::shared_ptr<GameEntity> _entity;

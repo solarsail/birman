@@ -13,6 +13,7 @@ class GameEntityFactory;
 
 class GameEntity : public std::enable_shared_from_this<GameEntity> {
     public:
+		GameEntity();
         typedef std::function<Any(void)> PropertyCallback;
 
         void attachComponent(std::shared_ptr<Component> c);
@@ -21,7 +22,7 @@ class GameEntity : public std::enable_shared_from_this<GameEntity> {
         Any getProperty(const std::string& id);
 
     private:
-        GameEntity();
+        
 
         std::unordered_map<std::string, PropertyCallback> _map;
         std::set<std::shared_ptr<Component>> _components;

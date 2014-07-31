@@ -7,8 +7,6 @@
 #include <typeinfo>
 #include <utility>
 
-template<class T>
-using StorageType = typename std::decay<T>::type;
 
 struct Any
 {
@@ -16,21 +14,21 @@ struct Any
 
     template<typename ValueType> Any(ValueType&& value)
         : _ptr(std::static_pointer_cast<Base>(
-                    std::make_shared<Derived<StorageType<ValueType>>>(std::forward<ValueType>(value))))
+                    std::make_shared<Derived<typename std::decay<ValueType>::type>>(std::forward<ValueType>(value))))
     { }
 
     template<class ValueType> bool is() const
     {
-        typedef StorageType<ValueType> T;
+        typedef typename std::decay<ValueType>::type T;
 
         auto derived = std::dynamic_pointer_cast<Derived<T>> (_ptr);
 
         return derived;
     }
 
-    template<class ValueType> StorageType<ValueType>& as()
+    template<class ValueType> typename std::decay<ValueType>::type& as()
     {
-        typedef StorageType<ValueType> T;
+        typedef typename std::decay<ValueType>::type T;
 
         auto derived = std::dynamic_pointer_cast<Derived<T>> (_ptr);
 
