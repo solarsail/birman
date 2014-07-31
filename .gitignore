@@ -39,3 +39,8 @@ SFML-2.1
 
 # vim
 *.swp
+*~
+
+# doxygen
+html
+latex
