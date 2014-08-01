@@ -40,10 +40,10 @@ class TextureHolder {
         const Resource& get(ID id) const;
         
     private:
-        void insert_resource(ID id, std::unique_ptr<Resource> res);
+        void insert_resource(ID id, std::shared_ptr<Resource> res);
 
     private:
-        std::map<ID, std::unique_ptr<Resource>> _texture_map;
+        std::map<ID, std::shared_ptr<Resource>> _texture_map;
 };
 
 

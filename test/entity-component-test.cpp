@@ -7,10 +7,9 @@
 
 class TestComponent : public Component {
     public:
-        void registerProperty(std::shared_ptr<GameEntity> e)
+        void registerProperty() override
         {
-            Component::registerProperty(e);
-            e->provideProperty("test", [this]() {
+            _entity->provideProperty("test", [this]() {
                     return this->getPosition();
             });
         }

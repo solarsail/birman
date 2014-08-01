@@ -1,8 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "components/component.hpp"
 
-class PositionComponent {
+class PositionComponent : public Component {
     public:
         void setWorldPos(float x, float y);
         void setWorldPos(const sf::Vector2f& pos);
@@ -11,6 +12,9 @@ class PositionComponent {
 
         void setWorldZ(float z);
         float getWorldZ() const;
+
+    protected:
+        void registerProperty() override;
         
     private:
         sf::Vector2f world2screen(const sf::Vector2f& v);

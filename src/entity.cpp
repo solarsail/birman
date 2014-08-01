@@ -7,7 +7,8 @@ GameEntity::GameEntity() { }
 void GameEntity::attachComponent(std::shared_ptr<Component> c)
 {
     _components.insert(c);
-    c->registerProperty(shared_from_this());
+    c->setEntity(shared_from_this());
+    c->registerProperty();
 }
 
 Any GameEntity::getProperty(const std::string& id)
@@ -21,6 +22,6 @@ Any GameEntity::getProperty(const std::string& id)
 void GameEntity::provideProperty(const std::string& id, PropertyCallback callback)
 {
     auto result = _map.insert(std::make_pair(id, callback));
-    assert(result.second);
+    assert(result.second);  // 保证新值被插入而不是返回原有值
 }
 

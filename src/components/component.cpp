@@ -2,10 +2,10 @@
 
 Component::Component() {}
 
-void Component::registerProperty(std::shared_ptr<GameEntity> entity)
+Component::~Component() {};
+
+void Component::setEntity(GameEntityPtr entity)
 {
     _entity = entity;
 }
-
-Component::~Component() {};
 

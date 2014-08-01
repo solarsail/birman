@@ -48,3 +48,15 @@ sf::Vector2f PositionComponent::screen2world(const sf::Vector2f& v)
     return sf::Vector2f((v.x + 2.0f*v.y)/4.0f, (2.0f*v.y - v.x)/4.0f);
 }
 
+void PositionComponent::registerProperty()
+{
+    _entity->provideProperty("WorldPosition", [this]() {
+            return this->getWorldPos();
+            });
+    _entity->provideProperty("ScreenPosition", [this]() {
+            return this->getScreenPos();
+            });
+    _entity->provideProperty("WorldZ", [this]() {
+            return this->getWorldZ();
+            });
+}
