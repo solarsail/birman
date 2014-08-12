@@ -2,7 +2,9 @@
 
 Component::Component() {}
 
-Component::~Component() {};
+Component::~Component() {}
+
+void Component::bindListeners() {}
 
 void Component::setEntity(GameEntityPtr entity)
 {

@@ -21,13 +21,13 @@ class Component {
 
     protected:
         //////////////////////////////////////////////////////////////
-        /// \brief 向实体注册本组件提供的属性。
+        /// \brief 向实体注册本组件所需要监听的属性。
         ///
         /// 应只被GameEntity::attachComponent()函数调用。
         /// GameEntity::attachComponent()函数保证了此函数调用之前
         /// _entity变量已经被设置。
         //////////////////////////////////////////////////////////////
-        virtual void registerProperty() = 0;
+        virtual void bindListeners();
 
         //////////////////////////////////////////////////////////////
         /// \brief 设置本组件所加入的实体。

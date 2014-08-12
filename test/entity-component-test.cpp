@@ -5,18 +5,25 @@
 #include "componentfactory.hpp"
 #include "entityfactory.hpp"
 
-class TestComponent : public Component {
+class SenderComponent : public Component {
     public:
-        void registerProperty() override
+        void setValue(int value)
         {
-            _entity->provideProperty("test", [this]() {
-                    return this->getPosition();
-            });
+            _value = value;
+            std::cout << "New value set in SenderComponent: " << value << std::endl;
+            _entity->notify("Test", _value);
         }
 
     private:
-        int getPosition() { return 3; }
+        int _value;
+};
 
+class ReceiverComponent : public Component {
+    public:
+        void bindListeners() override
+        {
+            _entity->listen("Test", [](int value) { std::cout << "New value received in ReceiverComponent: " << value << std::endl; });
+        }
 };
 
 int main()
@@ -25,9 +32,10 @@ int main()
     ComponentFactory cf;
 
     auto e = ef.newEntity();
-    auto c = cf.create<TestComponent>();
-    e->attachComponent(c);
-    Any a = e->getProperty("test");
-    std::cout << a.as<int>() << std::endl;
+    auto rc = cf.create<ReceiverComponent>();
+    auto sc = cf.create<SenderComponent>();
+    e->attachComponent(sc);
+    e->attachComponent(rc);
+    sc->setValue(5);
     return 0;
 }

@@ -7,11 +7,13 @@ class SpriteComponent : public Component {
         typedef std::shared_ptr<sf::Sprite> SpritePtr;
 
         SpriteComponent(SpirtePtr sprite);
+        sf::Vector2f getCenter();
 
     protected:
-        sf::Sprite getUpdatedSprite();
-        void registerProperty(std::shared_ptr<GameEntity> entity) override;
+        void bindListeners() override;
 
     private:
         SpritePtr _sprite;
 };
+
+bool operator <(const SpriteComponent::SpritePtr& a, const SpriteComponent::SpritePtr& b);

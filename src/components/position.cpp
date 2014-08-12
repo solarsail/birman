@@ -8,6 +8,8 @@ void PositionComponent::setWorldPos(float x, float y)
 void PositionComponent::setWorldPos(const sf::Vector2f& pos)
 {
     _world_pos = pos;
+    _entity->notify("WorldPos", _world_pos);
+    _entity->notify("ScreenPos", getScreenPos());
 }
 
 sf::Vector2f PositionComponent::getWorldPos() const
@@ -25,6 +27,7 @@ sf::Vector2f PositionComponent::getScreenPos() const
 void PositionComponent::setWorldZ(float z)
 {
     _z = z;
+    _entity->notify("WorldZ", _z);
 }
 
 float PositionComponent::getWorldZ() const
@@ -46,17 +49,4 @@ sf::Vector2f PositionComponent::world2screen(const sf::Vector2f& v)
 sf::Vector2f PositionComponent::screen2world(const sf::Vector2f& v)
 {
     return sf::Vector2f((v.x + 2.0f*v.y)/4.0f, (2.0f*v.y - v.x)/4.0f);
-}
-
-void PositionComponent::registerProperty()
-{
-    _entity->provideProperty("WorldPosition", [this]() {
-            return this->getWorldPos();
-            });
-    _entity->provideProperty("ScreenPosition", [this]() {
-            return this->getScreenPos();
-            });
-    _entity->provideProperty("WorldZ", [this]() {
-            return this->getWorldZ();
-            });
 }

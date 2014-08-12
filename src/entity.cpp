@@ -8,20 +8,17 @@ void GameEntity::attachComponent(std::shared_ptr<Component> c)
 {
     _components.insert(c);
     c->setEntity(shared_from_this());
-    c->registerProperty();
+    c->bindListeners();
 }
 
-Any GameEntity::getProperty(const std::string& id)
+void GameEntity::notify(const std::string& id, Any value)
 {
-    assert(!_map.empty());
-    auto found = _map.find(id);
-    assert(found != _map.end());
-    return found->second();
+    for (ValueConsumer& func : _bindings[id]) {
+        func(value);
+    }
 }
 
-void GameEntity::provideProperty(const std::string& id, PropertyCallback callback)
+void GameEntity::listen(const std::string& id, ValueConsumer function)
 {
-    auto result = _map.insert(std::make_pair(id, callback));
-    assert(result.second);  // 保证新值被插入而不是返回原有值
+    _bindings[id].push_back(function);
 }
-

@@ -3,18 +3,24 @@
 
 SpriteComponent::SpriteComponent(SpritePtr sprite)
     : _sprite(sprite)
-{ }
-
-sf::Sprite SpriteComponent::getUpdatedSpirte()
 {
-    sf::Vector2f pos = _entity->getProperty("ScreenPosition");
-    _sprite->setPosition(pos);
-    return *_sprite;
+    auto bounds = _sprite->getLocalBounds();
+    _sprite->setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
-void SpriteComponent::registerProperty()
+sf::Vector2f SpriteComponent::getCenter()
 {
-    _entity->provideProperty("Spirte", [this]() {
-            return this->getUpdatedSprite();
-            });
+    return getUpdatedSprite().getPosition();
+}
+
+void SpriteComponent::bindListeners()
+{
+    _entity->listen("ScreenPos", [this](sf::Vector2f pos){ this->_sprite->setPosition(pos); });
+}
+
+bool operator <(const SpriteComponent::SpritePtr& a, const SpriteComponent::SpritePtr& b)
+{
+    auto thispos = a->getPosition();
+    auto otherpos = b->getPosition();
+    return thispos.x + thispos.y < otherpos.x + otherpos.y;
 }

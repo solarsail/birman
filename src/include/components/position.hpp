@@ -13,9 +13,6 @@ class PositionComponent : public Component {
         void setWorldZ(float z);
         float getWorldZ() const;
 
-    protected:
-        void registerProperty() override;
-        
     private:
         sf::Vector2f world2screen(const sf::Vector2f& v);
         sf::Vector2f screen2world(const sf::Vector2f& v);
