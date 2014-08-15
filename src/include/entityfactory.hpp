@@ -17,7 +17,7 @@ class GameEntityFactory {
         /// \brief 创建游戏实体。
         ///
         //////////////////////////////////////////////////////////////
-        std::shared_ptr<GameEntity> newEntity();
+        static std::shared_ptr<GameEntity> newEntity();
 
         // TODO: 提供若干预定义实体的构造？
 };

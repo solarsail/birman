@@ -22,7 +22,7 @@ class ComponentFactory {
         ///
         /// \return 指向指定组件类型对象的智能指针
         //////////////////////////////////////////////////////////////
-        template <class T> std::shared_ptr<T> create()
+        template <class T> static std::shared_ptr<T> create()
         {
             static_assert(std::is_base_of<Component, T>::value, "Attempt to instantiate non Component derived classes");
             return std::make_shared<T>();

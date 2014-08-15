@@ -11,7 +11,12 @@ class SenderComponent : public Component {
         {
             _value = value;
             std::cout << "New value set in SenderComponent: " << value << std::endl;
-            _entity->notify("Test", _value);
+            _entity->notify("Test");
+        }
+
+        void registerProperties() override
+        {
+            _entity->provideProperty("Test", [this]() { return _value; });
         }
 
     private:
@@ -31,9 +36,9 @@ int main()
     GameEntityFactory ef;
     ComponentFactory cf;
 
-    auto e = ef.newEntity();
-    auto rc = cf.create<ReceiverComponent>();
-    auto sc = cf.create<SenderComponent>();
+    auto e = GameEntityFactory::newEntity();
+    auto rc = ComponentFactory::create<ReceiverComponent>();
+    auto sc = ComponentFactory::create<SenderComponent>();
     e->attachComponent(sc);
     e->attachComponent(rc);
     sc->setValue(5);
