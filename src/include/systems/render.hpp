@@ -20,8 +20,8 @@ class RenderSystem {
         RenderSystem(const RenderSystem&) = delete;
         void operator = (const RenderSystem&) = delete;
 
-        SpriteSet _background;
-        SpriteSet _terran_tiles;
+        SpriteSet _terrain_tiles;
         SpriteSet _objects;
+        SpriteSet _weather;
         SpriteSet _gui;
 };

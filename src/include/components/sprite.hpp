@@ -7,6 +7,9 @@ class SpriteComponent : public Component {
         typedef std::shared_ptr<sf::Sprite> SpritePtr;
 
         SpriteComponent(SpirtePtr sprite);
+        SpriteComponent(const std::string& id);
+        SpriteComponent();
+
         sf::Vector2f getCenter();
 
     protected:
