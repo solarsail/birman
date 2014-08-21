@@ -15,8 +15,8 @@ namespace Category
 		Tree,
 		Animal,
 
-        // 放在最后
-        TypeCount
+		// 放在最后
+		TypeCount
 	};
 }
 
@@ -25,41 +25,35 @@ namespace Category
 ///
 //////////////////////////////////////////////////////////////////////
 class CategorySet {
-    public:
+	public:
 		//////////////////////////////////////////////////////////////
-        /// \brief 判断集合中是否包含 type 类型。
-        ///
-        /// \param type 要判断的类型
-        ///
-        /// \return 包含则返回 true，否则返回 false。
-        ///
+		/// \brief 判断集合中是否包含 type 类型。
+		///
+		/// \param type 要判断的类型
+		///
+		/// \return 包含则返回 true，否则返回 false。
+		///
 		//////////////////////////////////////////////////////////////
-        bool hasType(Category::Type type);
+		bool hasType(Category::Type type);
 
 		//////////////////////////////////////////////////////////////
-        /// \brief 向集合中添加 type 类型。
-        ///
-        /// \param type 要添加的类型
-        ///
+		/// \brief 向集合中添加 type 类型。
+		///
+		/// \param type 要添加的类型
+		///
 		//////////////////////////////////////////////////////////////
-        void addType(Category::Type type);
+		void addType(Category::Type type);
 
 		//////////////////////////////////////////////////////////////
-        /// \brief 从集合中移出 type 类型。
-        ///
-        /// \param type 要移除的类型
-        ///
+		/// \brief 从集合中移出 type 类型。
+		///
+		/// \param type 要移除的类型
+		///
 		//////////////////////////////////////////////////////////////
-        void removeType(Category::Type type);
+		void removeType(Category::Type type);
 
-		//////////////////////////////////////////////////////////////
-        /// \brief 直接设置集合中的类型。
-        ///
-        /// \param mask 集合的二进制整数标示
-        ///
-		//////////////////////////////////////////////////////////////
-        void setTypes(unsigned int mask);
+		
 
-    private:
-        std::bitset<Category::TypeCount> _typeSet = 0;  ///< 集合的位图
+	private:
+		std::bitset<Category::TypeCount> _typeSet;  ///< 集合的位图
 };

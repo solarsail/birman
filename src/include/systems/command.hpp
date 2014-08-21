@@ -9,14 +9,14 @@ class GameEntity;
 
 struct Command
 {
-    typedef std::function<void(GameEntity&,sf::Time)> Action;
+	typedef std::function<void(GameEntity&,sf::Time)> Action;
 
 	Command();
 	Command(Category::Type type, Action a);
 	Command(const CategorySet& types, Action a);
 
 	Action action;
-    CategorySet categoryMask;
+	CategorySet categoryMask;
 };
 
 class CommandQueue
@@ -26,5 +26,5 @@ public:
 	Command pop();
 	bool isEmpty() const;
 private:
-	std::queue<Command> mQueue;
+	std::queue<Command> _mQueue;
 };

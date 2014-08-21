@@ -15,7 +15,3 @@ void CategorySet::removeType(Category::Type type)
     _typeSet.reset(type);
 }
 
-void CategorySet::setTypes(unsigned int mask)
-{
-    _typeSet = mask;
-}

@@ -8,10 +8,13 @@
 #include <unordered_map>
 #include <vector>
 #include "any.hpp"
-#include "systems/command.hpp"
+#include "category.hpp"
+
+
 
 class Component;
 class GameEntityFactory;
+class Command;
 
 
 //////////////////////////////////////////////////////////////////////
@@ -101,7 +104,7 @@ class GameEntity : public std::enable_shared_from_this<GameEntity> {
 	private:
 		std::unordered_map<std::string, std::pair<ValueProvider, std::vector<ValueConsumer>>> _bindings; ///< 属性 id、属性值获取函数与属性监听函数列表
 		std::set<std::shared_ptr<Component>> _components;       ///< 组件列表
-        Categoty::Type _category;                               ///< 实体类型
+		Category::Type _category;                               ///< 实体类型
 
 		friend class Component;
 		friend class GameEntityFactory;

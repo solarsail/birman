@@ -13,41 +13,41 @@ class ComponentFactory;
 ///
 //////////////////////////////////////////////////////////////////////
 class Component {
-    public:
-        typedef std::shared_ptr<GameEntity> GameEntityPtr;
+	public:
+		typedef std::shared_ptr<GameEntity> GameEntityPtr;
 
 		Component();
-        virtual ~Component();
+		virtual ~Component();
 
-    protected:
-        //////////////////////////////////////////////////////////////
-        /// \brief 向实体注册本组件所需要监听的属性。
-        ///
-        /// 应只被GameEntity::attachComponent()函数调用。
-        /// GameEntity::attachComponent()函数保证了此函数调用之前
-        /// _entity变量已经被设置。
-        //////////////////////////////////////////////////////////////
-        virtual void bindListeners();
+	protected:
+		//////////////////////////////////////////////////////////////
+		/// \brief 向实体注册本组件所需要监听的属性。
+		///
+		/// 应只被GameEntity::attachComponent()函数调用。
+		/// GameEntity::attachComponent()函数保证了此函数调用之前
+		/// _entity变量已经被设置。
+		//////////////////////////////////////////////////////////////
+		virtual void bindListeners();
 
-        //////////////////////////////////////////////////////////////
-        /// \brief 向实体注册本组件提供的属性。
-        ///
-        /// 应只被GameEntity::attachComponent()函数调用。
-        /// GameEntity::attachComponent()函数保证了此函数调用之前
-        /// _entity变量已经被设置。
-        //////////////////////////////////////////////////////////////
-        virtual void registerProperties();
+		//////////////////////////////////////////////////////////////
+		/// \brief 向实体注册本组件提供的属性。
+		///
+		/// 应只被GameEntity::attachComponent()函数调用。
+		/// GameEntity::attachComponent()函数保证了此函数调用之前
+		/// _entity变量已经被设置。
+		//////////////////////////////////////////////////////////////
+		virtual void registerProperties();
 
-        //////////////////////////////////////////////////////////////
-        /// \brief 设置本组件所加入的实体。
-        ///
-        /// \param entity 所属实体的智能指针
-        ///
-        //////////////////////////////////////////////////////////////
-        void setEntity(GameEntityPtr entity);
+		//////////////////////////////////////////////////////////////
+		/// \brief 设置本组件所加入的实体。
+		///
+		/// \param entity 所属实体的智能指针
+		///
+		//////////////////////////////////////////////////////////////
+		void setEntity(GameEntityPtr entity);
 
-        GameEntityPtr _entity;    ///< 指向所属实体的智能指针
+		GameEntityPtr _entity;    ///< 指向所属实体的智能指针
 
-        friend class ComponentFactory;
-        friend class GameEntity;
+		friend class ComponentFactory;
+		friend class GameEntity;
 };
