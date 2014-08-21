@@ -3,15 +3,20 @@
 #include <queue>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
-#include <bitset>
+#include "category.hpp"
 
 class GameEntity;
 
 struct Command
 {
+    typedef std::function<void(GameEntity&,sf::Time)> Action;
+
 	Command();
-	std::function<void(GameEntity&,sf::Time)> action;
-	unsigned int category;
+	Command(Category::Type type, Action a);
+	Command(const CategorySet& types, Action a);
+
+	Action action;
+    CategorySet categoryMask;
 };
 
 class CommandQueue
