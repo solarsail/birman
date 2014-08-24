@@ -5,6 +5,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <tuple>
 #include <unordered_map>
 #include <vector>
 #include "any.hpp"
@@ -72,14 +73,15 @@ class GameEntity : public std::enable_shared_from_this<GameEntity> {
 		//////////////////////////////////////////////////////////////
 		/// \brief 注册属性。
 		///
-		/// 将 std::string 类型的 id 和构造 Any 型对象的回调函数
-		/// 插入表中。
+		/// 将 std::string 类型的 id 和获取、设置属性值回调函数
+		/// 插入表中。属性值都使用 Any 类型。
 		///
 		/// \param id 属性标识
-		/// \param callback 回调函数，返回包含属性值的 Any 对象
+		/// \param getter 获取属性值的回调函数，返回包含属性值的 Any 对象
+		/// \param setter 设置属性值的回调函数
 		///
 		//////////////////////////////////////////////////////////////
-		void provideProperty(const std::string& id, ValueProvider callback);
+		void provideProperty(const std::string& id, ValueProvider getter, ValueConsumer setter);
 
 		//////////////////////////////////////////////////////////////
 		/// \brief 获取指定属性的值。
@@ -92,6 +94,15 @@ class GameEntity : public std::enable_shared_from_this<GameEntity> {
 		Any getProperty(const std::string& id);
 
 		//////////////////////////////////////////////////////////////
+		/// \brief 设置指定属性的值。
+		///
+		/// \param id 属性标识
+		/// \param value 属性值
+		///
+		//////////////////////////////////////////////////////////////
+		void setProperty(const std::string& id, Any value);
+
+		//////////////////////////////////////////////////////////////
 		/// \brief 处理消息系统传递过来的指令。
 		///
 		/// 函数判断传递过来的指令与category是否符合，若该category属于command
@@ -102,7 +113,7 @@ class GameEntity : public std::enable_shared_from_this<GameEntity> {
 		void onCommand(const Command& command);
 
 	private:
-		std::unordered_map<std::string, std::pair<ValueProvider, std::vector<ValueConsumer>>> _bindings; ///< 属性 id、属性值获取函数与属性监听函数列表
+		std::unordered_map<std::string, std::tuple<ValueProvider, ValueConsumer, std::vector<ValueConsumer>>> _bindings; ///< 属性 id、属性值访问函数与属性监听函数列表
 		std::set<std::shared_ptr<Component>> _components;       ///< 组件列表
 		Category::Type _category;                               ///< 实体类型
 

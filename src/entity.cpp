@@ -1,7 +1,6 @@
 #include "components/component.hpp"
 #include "entity.hpp"
 
-
 GameEntity::GameEntity() { }
 
 void GameEntity::attachComponent(std::shared_ptr<Component> c)
@@ -16,14 +15,16 @@ void GameEntity::notify(const std::string& id)
 {
     assert(!_bindings.empty());
     auto found = _bindings.find(id);
-    for (ValueConsumer& func : found->second.second) {
-        func(found->second.first());
+	auto listeners = std::get<2>(found->second);
+	auto getter = std::get<0>(found->second);
+    for (ValueConsumer& func : listeners) {
+        func(getter());
     }
 }
 
 void GameEntity::listen(const std::string& id, ValueConsumer function)
 {
-    _bindings[id].second.push_back(function);
+    std::get<2>(_bindings[id]).push_back(function);
 }
 
 Any GameEntity::getProperty(const std::string& id)
@@ -31,11 +32,21 @@ Any GameEntity::getProperty(const std::string& id)
     assert(!_bindings.empty());
     auto found = _bindings.find(id);
     assert(found != _bindings.end());
-    return found->second.first();
+    return std::get<0>(found->second)();
 }
 
-void GameEntity::provideProperty(const std::string& id, ValueProvider callback)
+void GameEntity::setProperty(const std::string& id, Any value)
 {
-    auto result = _bindings.insert(std::make_pair(id, std::make_pair(callback, std::vector<ValueConsumer>())));
+    assert(!_bindings.empty());
+    auto found = _bindings.find(id);
+    assert(found != _bindings.end());
+	auto setter = std::get<1>(found->second);
+	assert(setter);
+	setter(value);
+}
+
+void GameEntity::provideProperty(const std::string& id, ValueProvider getter, ValueConsumer setter)
+{
+    auto result = _bindings.insert(std::make_pair(id, std::make_tuple(getter, setter, std::vector<ValueConsumer>())));
     assert(result.second);  // 确认插入成功，防止重复插入
 }

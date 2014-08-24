@@ -16,7 +16,7 @@ class SenderComponent : public Component {
 
         void registerProperties() override
         {
-            _entity->provideProperty("Test", [this]() { return _value; });
+			_entity->provideProperty("Test", [this]() { return _value; }, [this](Any v) { this->setValue(v);  });
         }
 
     private:
@@ -33,14 +33,13 @@ class ReceiverComponent : public Component {
 
 int main()
 {
-    GameEntityFactory ef;
-    ComponentFactory cf;
-
     auto e = GameEntityFactory::newEntity();
     auto rc = ComponentFactory::create<ReceiverComponent>();
     auto sc = ComponentFactory::create<SenderComponent>();
     e->attachComponent(sc);
     e->attachComponent(rc);
     sc->setValue(5);
+    e->setProperty("Test", 6);
+	getchar();
     return 0;
 }
