@@ -26,6 +26,7 @@ enum class TextureID : std::uint8_t
     Wall_wood_left,
     Wall_wood_right,
 
+	TestSP,
     // ...
 };
 

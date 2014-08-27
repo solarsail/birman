@@ -57,7 +57,7 @@ class CategorySet {
 		/// \param mask 掩码，其中必须是0或1组成的字符串
 		///
 		//////////////////////////////////////////////////////////////
-		void CategorySet::setTypes(std::string mask);
+		void setTypes(std::string mask);
 
 	private:
 		std::bitset<Category::TypeCount> _typeSet;  ///< 集合的位图
