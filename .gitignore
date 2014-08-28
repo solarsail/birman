@@ -44,3 +44,5 @@ SFML-2.1
 # doxygen
 html
 latex
+
+Debug/birman.pdb
