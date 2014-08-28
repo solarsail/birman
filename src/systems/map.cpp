@@ -117,9 +117,9 @@ Map MapLoader::loadTestMap()
 	map.allocate(16, 8);
 	map._tileWidth = 32;
 	map._tileHeight = 32;
-	memcpy(&map._grid, grid, 16 * 8);
+	memcpy(map._grid, grid, 16 * 8);
 	sf::Texture tileset;
-	if (!map._tileSetTexture.loadFromFile("desert.png"))
+	if (!map._tileSetTexture.loadFromFile("../assets/textures/desert.png"))
 		throw std::runtime_error("unable to load texture");
 
 	return map;
