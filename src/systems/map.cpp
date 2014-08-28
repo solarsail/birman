@@ -34,10 +34,10 @@ void MapSlice::buildDrawable(size_t x, size_t y)
 			int tv = tileNumber / (_texture.getSize().x / tileWidth);
 			sf::Vertex* quad = &_vertices[i * _width + j];
 
-			quad[0].texCoords = sf::Vector2f(tu * (tileWidth+1), tv * (tileHeight+1));
-			quad[1].texCoords = sf::Vector2f((tu + 1) * (tileWidth+1), tv * (tileHeight+1));
-			quad[2].texCoords = sf::Vector2f((tu + 1) * (tileWidth+1), (tv + 1) * (tileHeight+1));
-			quad[3].texCoords = sf::Vector2f(tu * (tileWidth+1), (tv + 1) * (tileHeight+1));
+			quad[0].texCoords = sf::Vector2f(tu * tileWidth, tv * tileHeight);
+			quad[1].texCoords = sf::Vector2f((tu + 1) * tileWidth, tv * tileHeight);
+			quad[2].texCoords = sf::Vector2f((tu + 1) * tileWidth, (tv + 1) * tileHeight);
+			quad[3].texCoords = sf::Vector2f(tu * tileWidth, (tv + 1) * tileHeight);
 		}
 }
 
@@ -119,7 +119,7 @@ Map MapLoader::loadTestMap()
 	map._tileHeight = 32;
 	memcpy(map._grid, grid, 16 * 8);
 	sf::Texture tileset;
-	if (!map._tileSetTexture.loadFromFile("../assets/textures/desert.png"))
+	if (!map._tileSetTexture.loadFromFile("../assets/textures/desert-compact.png"))
 		throw std::runtime_error("unable to load texture");
 
 	return map;
