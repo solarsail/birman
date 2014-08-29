@@ -12,7 +12,7 @@ MapSlice::MapSlice(size_t W, size_t H, Map& map) :
 
 	for (int i = 0; i < H/* rows */; ++i)
 		for (int j = 0; j < W/* cols */; ++j) {
-			sf::Vertex* quad = &_vertices[i * W + j];
+			sf::Vertex* quad = &_vertices[(i * W + j) * 4];
 			quad[0].position = sf::Vector2f(j * tileWidth, i * tileHeight);
 			quad[1].position = sf::Vector2f((j + 1) * tileWidth, i * tileHeight);
 			quad[2].position = sf::Vector2f((j + 1) * tileWidth, (i + 1) * tileHeight);
@@ -32,7 +32,7 @@ void MapSlice::buildDrawable(size_t x, size_t y)
 			int tileNumber = _map._grid[(x + j) + (y + i) * _width];
 			int tu = tileNumber % (_texture.getSize().x / tileWidth);
 			int tv = tileNumber / (_texture.getSize().x / tileWidth);
-			sf::Vertex* quad = &_vertices[i * _width + j];
+			sf::Vertex* quad = &_vertices[(i * _width + j) * 4];
 
 			quad[0].texCoords = sf::Vector2f(tu * tileWidth, tv * tileHeight);
 			quad[1].texCoords = sf::Vector2f((tu + 1) * tileWidth, tv * tileHeight);
