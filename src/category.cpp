@@ -1,6 +1,6 @@
 #include "category.hpp"
 
-bool CategorySet::hasType(Category::Type type)
+bool CategorySet::hasType(Category::Type type) const
 {
 	return _typeSet.test(type);
 }

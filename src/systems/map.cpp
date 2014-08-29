@@ -57,7 +57,11 @@ void MapSlice::draw(sf::RenderTarget& target, sf::RenderStates states) const
 // Map
 ///////////////////////////////////////////////////////
 
-Map::Map() {}
+Map::Map() :
+	_grid(nullptr),
+	_width(0), _height(0),
+	_tileWidth(0), _tileHeight(0)
+{}
 
 Map::Map(Map&& m) :
 	_grid(m._grid), _tileSetTexture(m._tileSetTexture),
@@ -97,6 +101,8 @@ void Map::erase()
 
 Map MapLoader::load(const std::string& mapname)
 {
+	// not implemented
+	return Map();
 }
 
 Map MapLoader::loadTestMap()

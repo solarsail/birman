@@ -15,7 +15,7 @@
 
 class Component;
 class GameEntityFactory;
-class Command;
+struct Command;
 
 
 //////////////////////////////////////////////////////////////////////
@@ -110,7 +110,16 @@ class GameEntity : public std::enable_shared_from_this<GameEntity> {
 		/// 
 		/// \param command 事件指令
 		//////////////////////////////////////////////////////////////
-		void onCommand(const Command& command);
+		void onCommand(Command& command);
+
+		//////////////////////////////////////////////////////////////
+		/// \brief 设置游戏实体类型。
+		///
+		/// 将游戏实体类型设置为type
+		/// 
+		/// \param type 该游戏实体的类型，由Category::Type指定
+		//////////////////////////////////////////////////////////////
+		void setCategory(Category::Type type);
 
 	private:
 		std::unordered_map<std::string, std::tuple<ValueProvider, ValueConsumer, std::vector<ValueConsumer>>> _bindings; ///< 属性 id、属性值访问函数与属性监听函数列表

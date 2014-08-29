@@ -9,11 +9,11 @@ class GameEntity;
 
 struct Command
 {
-	typedef std::function<void(GameEntity&,sf::Time)> Action;
+	typedef std::function<void(GameEntity&)> Action;
 
-	Command();
-	Command(Category::Type type, Action a);
-	Command(const CategorySet& types, Action a);
+	//Command();
+	//Command(Category::Type type, Action a);
+	//Command(const CategorySet& types, Action a);
 
 	Action action;
 	CategorySet categoryMask;

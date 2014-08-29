@@ -40,11 +40,11 @@ class Map {
 	private:
 		void erase();
 
-		TerrainGrid _grid = nullptr;
-		size_t _width = 0;
-		size_t _height = 0;
-		size_t _tileWidth = 0;
-	    size_t _tileHeight = 0;
+		TerrainGrid _grid;
+		size_t _width;
+		size_t _height;
+		size_t _tileWidth;
+	    size_t _tileHeight;
 		sf::Texture _tileSetTexture;
 
 		friend class MapSlice;

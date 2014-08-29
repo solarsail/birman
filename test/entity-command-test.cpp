@@ -4,6 +4,7 @@
 #include "components/component.hpp"
 #include "componentfactory.hpp"
 #include "entityfactory.hpp"
+#include "systems/command.hpp"
 
 class SenderComponent : public Component {
 	public:
@@ -40,6 +41,18 @@ int main()
 	e->attachComponent(rc);
 	sc->setValue(5);
 	e->setProperty("Test", 6);
+	e->setCategory(Category::Tree);
+
+	Command c;
+	c.categoryMask.addType(Category::Animal);
+	c.categoryMask.addType(Category::Tree);
+
+	c.action = [](GameEntity& entity)
+	{
+		entity.setProperty("Test",7);
+	};
+
+	e->onCommand(c);
 	getchar();
 	return 0;
 }

@@ -34,7 +34,7 @@ class CategorySet {
 		/// \return 包含则返回 true，否则返回 false。
 		///
 		//////////////////////////////////////////////////////////////
-		bool hasType(Category::Type type);
+		bool hasType(Category::Type type) const;
 
 		//////////////////////////////////////////////////////////////
 		/// \brief 向集合中添加 type 类型。
@@ -57,7 +57,7 @@ class CategorySet {
 		/// \param mask 掩码，其中必须是0或1组成的字符串
 		///
 		//////////////////////////////////////////////////////////////
-		void setTypes(std::string mask);
+		void CategorySet::setTypes(std::string mask);
 
 	private:
 		std::bitset<Category::TypeCount> _typeSet;  ///< 集合的位图
