@@ -2,26 +2,39 @@
 
 #include <memory>
 #include <set>
-#include <components/sprite.hpp>
+#include "components/sprite.hpp"
+#include "context.hpp"
+#include "systems/map.hpp"
 
 class RenderSystem {
     public:
+        typedef std::shared_ptr<GameEntity> EntityPtr;
+        typedef std::multiset<EntityPtr> EntitySet;
+
         static RenderSystem& get();
 
-        void process();
+        void process(GameContext& ctx);
+        void init(GameContext& ctx, EntityPtr player);
+        void setMap(Map& map);
 
-        void registerObject(std::shared_ptr<SpriteComponent> object);
-        void unregisterObject(std::shared_ptr<SpriteComponent> object);
+        void registerObject(EntityPtr entity);
+        void unregisterObject(EntityPtr entity);
 
     private:
-        typedef std::multiset<std::shared_ptr<SpriteComponent>> SpriteSet;
-
         RenderSystem();
+        ~RenderSystem();
         RenderSystem(const RenderSystem&) = delete;
         void operator = (const RenderSystem&) = delete;
 
-        SpriteSet _terrain_tiles;
-        SpriteSet _objects;
-        SpriteSet _weather;
-        SpriteSet _gui;
+        void reloadMapSlice(sf::Vector2f origin);
+
+        Map* _terrainPtr;
+        EntitySet _objects;
+        EntityPtr _player;
+        EntitySet _weather;
+        EntitySet _gui;
+
+        MapSlice* _mapSlicePtr;
+        sf::FloatRect _reloadBound;
+        sf::Vector2f _lastCenter;
 };

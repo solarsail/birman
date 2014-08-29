@@ -29,6 +29,7 @@ class Map {
 		Map();
 		Map(Map&& m);
 		~Map();
+        Map& operator=(Map&& m);
 
 		void allocate(size_t w, size_t h);
 

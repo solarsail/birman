@@ -4,6 +4,12 @@
 #include <memory>
 #include "entity.hpp"
 
+namespace Property {
+    static const char* WorldPosition = "WorldPos";
+    static const char* WorldZ = "WorldZ";
+    static const char* Sprite = "Sprite";
+}
+
 class ComponentFactory;
 
 //////////////////////////////////////////////////////////////////////

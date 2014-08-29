@@ -7,23 +7,15 @@ MapSlice::MapSlice(size_t W, size_t H, Map& map) :
 	_vertices(sf::Quads, W * H * 4),
 	_width(W), _height(H), _map(map), _texture(map._tileSetTexture)
 {
-	size_t tileWidth = _map.tileWidth();
-	size_t tileHeight = _map.tileHeight();
-
-	for (int i = 0; i < H/* rows */; ++i)
-		for (int j = 0; j < W/* cols */; ++j) {
-			sf::Vertex* quad = &_vertices[(i * W + j) * 4];
-			quad[0].position = sf::Vector2f(j * tileWidth, i * tileHeight);
-			quad[1].position = sf::Vector2f((j + 1) * tileWidth, i * tileHeight);
-			quad[2].position = sf::Vector2f((j + 1) * tileWidth, (i + 1) * tileHeight);
-			quad[3].position = sf::Vector2f(j * tileWidth, (i + 1) * tileHeight);
-		}
 }
 
 void MapSlice::buildDrawable(size_t x, size_t y)
 {
 	size_t tileWidth = _map.tileWidth();
 	size_t tileHeight = _map.tileHeight();
+
+    size_t dx = x * tileWidth;
+    size_t dy = y * tileHeight;
 
 	// find its position in the tileset texture
 
@@ -32,7 +24,13 @@ void MapSlice::buildDrawable(size_t x, size_t y)
 			int tileNumber = _map._grid[(x + j) + (y + i) * _width];
 			int tu = tileNumber % (_texture.getSize().x / tileWidth);
 			int tv = tileNumber / (_texture.getSize().x / tileWidth);
+
 			sf::Vertex* quad = &_vertices[(i * _width + j) * 4];
+
+			quad[0].position = sf::Vector2f(dx + j * tileWidth, dy + i * tileHeight);
+			quad[1].position = sf::Vector2f(dx + (j + 1) * tileWidth, dy + i * tileHeight);
+			quad[2].position = sf::Vector2f(dx + (j + 1) * tileWidth, dy + (i + 1) * tileHeight);
+			quad[3].position = sf::Vector2f(dx + j * tileWidth, dy + (i + 1) * tileHeight);
 
 			quad[0].texCoords = sf::Vector2f(tu * tileWidth, tv * tileHeight);
 			quad[1].texCoords = sf::Vector2f((tu + 1) * tileWidth, tv * tileHeight);
@@ -70,6 +68,19 @@ Map::Map(Map&& m) :
 {
 	m._grid = nullptr;
 	// reset texture
+}
+
+Map& Map::operator=(Map&& m)
+{
+    if (&m == this)
+        return *this;
+    _grid = m._grid;
+    _tileSetTexture = m._tileSetTexture;
+    _width = m._width;
+    _height = m._height;
+    _tileWidth = m._tileWidth;
+    _tileHeight = m._tileHeight;
+    m._grid = nullptr;
 }
 
 Map::~Map()

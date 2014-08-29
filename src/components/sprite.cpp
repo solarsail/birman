@@ -10,12 +10,17 @@ SpriteComponent::SpriteComponent(SpritePtr sprite)
 
 sf::Vector2f SpriteComponent::getCenter()
 {
-    return getUpdatedSprite().getPosition();
+    return _sprite->getPosition();
 }
 
 void SpriteComponent::bindListeners()
 {
     _entity->listen("ScreenPos", [this](sf::Vector2f pos){ this->_sprite->setPosition(pos); });
+}
+
+void SpriteComponent::registerProperties()
+{
+    _entity->provideProperty(Property::Sprite, [this]() { return _sprite; }, nullptr);
 }
 
 bool operator <(const SpriteComponent::SpritePtr& a, const SpriteComponent::SpritePtr& b)

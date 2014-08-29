@@ -6,7 +6,7 @@ int main()
 
 	auto map = MapLoader::loadTestMap();
 	MapSlice slice(8, 8, map);
-	slice.buildDrawable(0, 0);
+	slice.buildDrawable(1, 0);
 
 	while (window.isOpen())
 	{

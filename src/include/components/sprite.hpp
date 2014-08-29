@@ -15,6 +15,7 @@ class SpriteComponent : public Component {
 
     protected:
         void bindListeners() override;
+        void registerProperties() override;
 
     private:
         SpritePtr _sprite;
