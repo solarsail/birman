@@ -7,6 +7,7 @@ class Map;
 class MapSlice : public sf::Drawable, public sf::Transformable {
 	public:
 		MapSlice(size_t W, size_t H, Map& map);
+		~MapSlice();
 
 		/// 以(x, y)为原点构造顶点数组
 		void buildDrawable(size_t x, size_t y);
@@ -14,7 +15,7 @@ class MapSlice : public sf::Drawable, public sf::Transformable {
 	private:
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-		sf::VertexArray _vertices;
+		sf::VertexArray* _vertices;
 		size_t _width, _height;
 		Map& _map;
 		sf::Texture _texture;

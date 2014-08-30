@@ -4,9 +4,14 @@
 #include "systems/map.hpp"
 
 MapSlice::MapSlice(size_t W, size_t H, Map& map) :
-	_vertices(sf::Quads, W * H * 4),
+	_vertices(nullptr),
 	_width(W), _height(H), _map(map), _texture(map._tileSetTexture)
 {
+}
+
+MapSlice::~MapSlice()
+{
+	if (_vertices) delete _vertices;
 }
 
 void MapSlice::buildDrawable(size_t x, size_t y)
@@ -17,15 +22,21 @@ void MapSlice::buildDrawable(size_t x, size_t y)
     size_t dx = x * tileWidth;
     size_t dy = y * tileHeight;
 
+	size_t width = std::min(_width, _map.width() - x);
+	size_t height = std::min(_height, _map.height() - y);
+
+	if (_vertices) delete _vertices;
+	_vertices = new sf::VertexArray(sf::Quads, width * height * 4);
+
 	// find its position in the tileset texture
 
-	for (int i = 0; i < _height/* rows */; ++i)
-		for (int j = 0; j < _width/* cols */; ++j) {
-			int tileNumber = _map._grid[(x + j) + (y + i) * _width];
+	for (int i = 0; i < height/* rows */; ++i)
+		for (int j = 0; j < width/* cols */; ++j) {
+			int tileNumber = _map._grid[(x + j) + (y + i) * _map.width()];
 			int tu = tileNumber % (_texture.getSize().x / tileWidth);
 			int tv = tileNumber / (_texture.getSize().x / tileWidth);
 
-			sf::Vertex* quad = &_vertices[(i * _width + j) * 4];
+			sf::Vertex* quad = &(*_vertices)[(i * width + j) * 4];
 
 			quad[0].position = sf::Vector2f(dx + j * tileWidth, dy + i * tileHeight);
 			quad[1].position = sf::Vector2f(dx + (j + 1) * tileWidth, dy + i * tileHeight);
@@ -48,7 +59,7 @@ void MapSlice::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	states.texture = &_texture;
 
 	// draw the vertex array
-	target.draw(_vertices, states);
+	target.draw(*_vertices, states);
 }
 
 ///////////////////////////////////////////////////////
@@ -98,7 +109,10 @@ size_t Map::tileHeight() { return _tileHeight; }
 
 void Map::allocate(size_t w, size_t h)
 {
+	if (_grid) delete[] _grid;
 	_grid = new TerrainCell[w * h];
+	_width = w;
+	_height = h;
 }
 
 void Map::erase()
@@ -120,14 +134,14 @@ Map MapLoader::loadTestMap()
 {
 	const Map::TerrainCell grid[] = 
 	{
-		9, 9, 9, 9, 9, 9, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29,
-		9, 29, 29, 29, 29, 29, 29, 9, 9, 9, 9, 31, 9, 9, 9, 9,
-		29, 29, 9, 9, 9, 9, 9, 9, 14, 14, 14, 14, 14, 14, 14, 14,
-		9, 29, 9, 9, 31, 9, 14, 14, 14, 9, 29, 29, 29, 9, 9, 9,
-		9, 29, 29, 9, 14, 14, 14, 9, 9, 9, 29, 29, 29, 31, 9, 9,
-		9, 9, 29, 9, 14, 9, 31, 31, 9, 9, 29, 29, 29, 29, 31, 9,
-		31, 9, 29, 9, 14, 9, 31, 31, 31, 9, 29, 29, 29, 29, 29, 29,
-		9, 9, 29, 9, 14, 31, 31, 31, 9, 9, 9, 9, 29, 29, 29, 29,
+		9 , 9 , 9 , 9 , 9 , 9 , 29, 29, 29, 29, 29, 29, 29, 29, 29, 29,
+		9 , 29, 29, 29, 29, 29, 29, 9 , 9 , 9 , 9 , 31, 9 , 9 , 9 , 9 ,
+		29, 29, 9 , 9 , 9 , 9 , 9 , 9 , 14, 14, 14, 14, 14, 14, 14, 14,
+		9 , 29, 9 , 9 , 31, 9 , 14, 14, 14, 9 , 29, 29, 29, 9 , 9 , 9 ,
+		9 , 29, 29, 9 , 14, 14, 14, 9 , 9 , 9 , 29, 29, 29, 31, 9 , 9 ,
+		9 , 9 , 29, 9 , 14, 9 , 31, 31, 9 , 9 , 29, 29, 29, 29, 31, 9 ,
+		31, 9 , 29, 9 , 14, 9 , 31, 31, 31, 9 , 29, 29, 29, 29, 29, 29,
+		9 , 9 , 29, 9 , 14, 31, 31, 31, 9 , 9 , 9 , 9 , 29, 29, 29, 29,
 	};
 
 	Map map;
