@@ -29,6 +29,26 @@ int main()
 		{
 			if(event.type == sf::Event::Closed)
 				window.close();
+			else if (event.type == sf::Event::KeyPressed) {
+				sf::Vector2f pos = player->getProperty(Property::WorldPosition);
+				switch (event.key.code) {
+				case sf::Keyboard::W:
+					pos.y -= 5;
+					break;
+				case sf::Keyboard::S:
+					pos.y += 5;
+					break;
+				case sf::Keyboard::A:
+					pos.x -= 5;
+					break;
+				case sf::Keyboard::D:
+					pos.x += 5;
+					break;
+				default:
+					break;
+				}
+				player->setProperty(Property::WorldPosition, pos);
+			}
 		}
 
         renderer.process(ctx);
