@@ -129,3 +129,5 @@ class GameEntity : public std::enable_shared_from_this<GameEntity> {
 		friend class Component;
 		friend class GameEntityFactory;
 };
+
+typedef std::shared_ptr<GameEntity> GameEntityPtr;

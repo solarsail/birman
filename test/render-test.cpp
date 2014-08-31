@@ -1,61 +1,31 @@
 #include "context.hpp"
 #include "components/position.hpp"
 #include "componentfactory.hpp"
+#include "configuration.hpp"
 #include "entityfactory.hpp"
+#include "systems/game.hpp"
 #include "systems/map.hpp"
 #include "systems/render.hpp"
 
-int main()
+GameEntityPtr loadPlayer()
 {
-
-	sf::RenderWindow window(sf::VideoMode(480, 320), "Test Map");
-    sf::View view(sf::FloatRect(0, 0, 480, 320));
-    GameContext ctx = { window, view };
-
-
-	auto map = MapLoader::loadTestMap();
 	auto player = GameEntityFactory::newEntity();
 	auto pos = ComponentFactory::create<PositionComponent>();
 	player->attachComponent(pos);
     player->setProperty(Property::WorldPosition, sf::Vector2f(1600, 1600));
 
-    RenderSystem& renderer = RenderSystem::get();
-    renderer.setMap(map);
-    renderer.init(ctx, player);
+	return player;
+}
 
-	while (window.isOpen())
-	{
-		// handle events
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if(event.type == sf::Event::Closed)
-				window.close();
-			else if (event.type == sf::Event::KeyPressed) {
-				sf::Vector2f pos = player->getProperty(Property::WorldPosition);
-				switch (event.key.code) {
-				case sf::Keyboard::W:
-					pos.y -= 5;
-					break;
-				case sf::Keyboard::S:
-					pos.y += 5;
-					break;
-				case sf::Keyboard::A:
-					pos.x -= 5;
-					break;
-				case sf::Keyboard::D:
-					pos.x += 5;
-					break;
-				default:
-					break;
-				}
-				player->setProperty(Property::WorldPosition, pos);
-			}
-		}
+int main()
+{
+	Configuration conf;
+	conf.set(ConfigItem::MapName, std::string("TestMap"));
+	conf.set(ConfigItem::WindowWidth, 480U);
+	conf.set(ConfigItem::WindowHeight, 320U);
+	conf.set(ConfigItem::WindowTitle, std::string("Map Render Test"));
 
-        renderer.process(ctx);
-	}
-
-	return 0;
+	Game game(conf, loadPlayer());
+	return game.run();
 }
 

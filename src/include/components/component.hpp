@@ -20,8 +20,6 @@ class ComponentFactory;
 //////////////////////////////////////////////////////////////////////
 class Component {
 	public:
-		typedef std::shared_ptr<GameEntity> GameEntityPtr;
-
 		Component();
 		virtual ~Component();
 

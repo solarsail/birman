@@ -19,8 +19,9 @@ void RenderSystem::setMap(Map& map)
     _terrainPtr = &map;
 }
 
-void RenderSystem::init(GameContext& ctx, EntityPtr player)
+void RenderSystem::init(GameContext& ctx, GameEntityPtr player)
 {
+    _terrainPtr = &(ctx.map);
     sf::View& view = ctx.mainView;
 	auto viewsize = view.getSize();
     _player = player;
@@ -64,12 +65,12 @@ void RenderSystem::reloadMapSlice(sf::Vector2f origin)
     _mapSlicePtr->buildDrawable(x, y);
 }
 
-void RenderSystem::registerObject(EntityPtr object)
+void RenderSystem::registerObject(GameEntityPtr object)
 {
     _objects.insert(object);
 }
 
-void RenderSystem::unregisterObject(EntityPtr object)
+void RenderSystem::unregisterObject(GameEntityPtr object)
 {
     _objects.erase(object);
 }
