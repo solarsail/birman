@@ -7,15 +7,15 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(192, 128), "Test Map");
-    sf::View view(sf::FloatRect(0, 0, 192, 128));
+	sf::RenderWindow window(sf::VideoMode(480, 320), "Test Map");
+    sf::View view(sf::FloatRect(0, 0, 480, 320));
     GameContext ctx { window, view };
 
 	auto map = MapLoader::loadTestMap();
 	auto player = GameEntityFactory::newEntity();
 	auto pos = ComponentFactory::create<PositionComponent>();
 	player->attachComponent(pos);
-    player->setProperty(Property::WorldPosition, sf::Vector2f(256, 128));
+    player->setProperty(Property::WorldPosition, sf::Vector2f(1600, 1600));
 
     RenderSystem& renderer = RenderSystem::get();
     renderer.setMap(map);

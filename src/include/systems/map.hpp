@@ -9,6 +9,8 @@ class MapSlice : public sf::Drawable, public sf::Transformable {
 		MapSlice(size_t W, size_t H, Map& map);
 		~MapSlice();
 
+		sf::FloatRect reloadBound(sf::Vector2f viewsize);
+
 		/// 以(x, y)为原点构造顶点数组
 		void buildDrawable(size_t x, size_t y);
 
@@ -17,6 +19,7 @@ class MapSlice : public sf::Drawable, public sf::Transformable {
 
 		sf::VertexArray* _vertices;
 		size_t _width, _height;
+		sf::FloatRect _availSize;
 		Map& _map;
 		sf::Texture _texture;
 };
