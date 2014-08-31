@@ -14,7 +14,7 @@ namespace Category
 		Player = 0,
 		Tree,
 		Animal,
-
+		Windowview,
 		// 放在最后
 		TypeCount
 	};

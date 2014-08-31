@@ -22,3 +22,46 @@ Systemkeys::Systemkeys()
 	key.myKeyCode = sf::Keyboard::S;
 	Keys["down"] = key;
 }
+
+bool Systemkeys::TestEvent(MyKeys k,sf::Event e)
+{
+	//handle mouse event
+	if (k.myInputType == InputType::MouseInput &&
+		k.myEventType == e.type && 
+		k.myMouseButton == e.mouseButton.button)
+	{
+		return true;
+	}
+
+	//handle keyboard event
+	if (k.myInputType == InputType::KeyboardInput &&
+		k.myEventType == e.type &&
+		k.myKeyCode == e.key.code)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void Systemkeys::HandleEvent(sf::Event e)
+{
+	if (TestEvent(Keys["left"],e))
+	{
+		//move left
+	}
+	if (TestEvent(Keys["right"],e))
+	{
+		//move right
+	}
+	if (TestEvent(Keys["up"],e))
+	{
+		//move up
+	}
+	if (TestEvent(Keys["down"],e))
+	{
+		//move down
+	}
+}
+
+std::map<std::string,MyKeys> Systemkeys::Keys;

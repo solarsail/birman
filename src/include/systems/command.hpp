@@ -26,5 +26,15 @@ public:
 	Command pop();
 	bool isEmpty() const;
 private:
-	std::queue<Command> _mQueue;
+	static std::queue<Command> _mQueue;
+};
+
+class CommandSet
+{
+public:
+	CommandSet();
+	void setCommand(std::string,Command);
+private:
+	Command cmd;
+	static std::map<std::string,Command> _commandset;
 };

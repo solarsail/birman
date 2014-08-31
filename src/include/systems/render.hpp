@@ -23,8 +23,8 @@ class RenderSystem {
     private:
         RenderSystem();
         ~RenderSystem();
-        RenderSystem(const RenderSystem&) = delete;
-        void operator = (const RenderSystem&) = delete;
+        RenderSystem(const RenderSystem&);
+        void operator = (const RenderSystem&);
 
         void reloadMapSlice(sf::Vector2f origin);
 

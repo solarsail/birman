@@ -18,8 +18,11 @@ struct MyKeys
 
 class Systemkeys
 {
-	public:
+public:
 		Systemkeys();
-		std::map<std::string,MyKeys> Keys;
+		void HandleEvent(sf::Event e);
+private:
+		bool TestEvent(MyKeys k,sf::Event e);
+		static std::map<std::string,MyKeys> Keys;
 		MyKeys key;
 };

@@ -16,3 +16,17 @@ bool CommandQueue::isEmpty() const
 {
 	return _mQueue.empty();
 }
+
+void CommandSet::setCommand(std::string str,Command command)
+{
+	_commandset[str] = command;
+}
+
+CommandSet::CommandSet()
+{
+
+}
+
+std::queue<Command> CommandQueue::_mQueue;
+std::map<std::string,Command> CommandSet::_commandset;
+
