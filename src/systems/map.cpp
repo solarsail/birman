@@ -14,6 +14,16 @@ MapSlice::~MapSlice()
 	if (_vertices) delete _vertices;
 }
 
+sf::FloatRect MapSlice::reloadBound(sf::Vector2f viewsize)
+{
+	sf::FloatRect bound = _availSize;
+	bound.left += viewsize.x / 2;
+	bound.top += viewsize.y / 2;
+	bound.width -= viewsize.x;
+	bound.height -= viewsize.y;
+	return bound;
+}
+
 void MapSlice::buildDrawable(size_t x, size_t y)
 {
 	size_t tileWidth = _map.tileWidth();
@@ -25,8 +35,15 @@ void MapSlice::buildDrawable(size_t x, size_t y)
 	size_t width = std::min(_width, _map.width() - x);
 	size_t height = std::min(_height, _map.height() - y);
 
-	if (_vertices) delete _vertices;
-	_vertices = new sf::VertexArray(sf::Quads, width * height * 4);
+	_availSize.left = dx;
+	_availSize.top = dy;
+	_availSize.width = width * tileWidth;
+	_availSize.height = height * tileHeight;
+
+	if (!_vertices || _vertices->getVertexCount() != width * height * 4) {
+		if (_vertices) delete _vertices;
+		_vertices = new sf::VertexArray(sf::Quads, width * height * 4);
+	}
 
 	// find its position in the tileset texture
 
@@ -132,6 +149,7 @@ Map MapLoader::load(const std::string& mapname)
 
 Map MapLoader::loadTestMap()
 {
+	const Map::TerrainCell t[] = { 9, 14, 29, 33 };
 	const Map::TerrainCell grid[] = 
 	{
 		9 , 9 , 9 , 9 , 9 , 9 , 29, 29, 29, 29, 29, 29, 29, 29, 29, 29,
@@ -145,10 +163,15 @@ Map MapLoader::loadTestMap()
 	};
 
 	Map map;
-	map.allocate(16, 8);
+	map.allocate(100, 100);
 	map._tileWidth = 32;
 	map._tileHeight = 32;
-	memcpy(map._grid, grid, 16 * 8);
+	for (int i = 0; i < 100; ++i) {
+		for (int j = 0; j < 100; ++j) {
+			map._grid[i * 100 + j] = t[(i + j) / 10 % 4];
+		}
+	}
+	//memcpy(map._grid, grid, 16 * 8);
 	sf::Texture tileset;
 	if (!map._tileSetTexture.loadFromFile("../assets/textures/desert-compact.png"))
 		throw std::runtime_error("unable to load texture");
