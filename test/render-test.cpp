@@ -10,7 +10,7 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(480, 320), "Test Map");
     sf::View view(sf::FloatRect(0, 0, 480, 320));
-    GameContext ctx { window, view };
+    GameContext ctx = { window, view };
 
 
 	auto map = MapLoader::loadTestMap();
