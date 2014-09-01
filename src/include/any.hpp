@@ -76,7 +76,7 @@ struct Any {
         /// \see is
         ///
         //////////////////////////////////////////////////////////////////
-        template<class ValueType> typename std::decay<ValueType>::type& as()
+        template<class ValueType> typename std::decay<ValueType>::type& as() const
         {
             typedef typename std::decay<ValueType>::type T;
 
@@ -99,7 +99,7 @@ struct Any {
         /// \see as
         ///
         //////////////////////////////////////////////////////////////////
-        template<class ValueType> operator ValueType()
+        template<class ValueType> operator ValueType() const
         {
             return as<ValueType>();
         }

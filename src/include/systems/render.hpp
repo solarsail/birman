@@ -8,17 +8,16 @@
 
 class RenderSystem {
     public:
-        typedef std::shared_ptr<GameEntity> EntityPtr;
-        typedef std::multiset<EntityPtr> EntitySet;
+        typedef std::multiset<GameEntityPtr> EntitySet;
 
         static RenderSystem& get();
 
         void process(GameContext& ctx);
-        void init(GameContext& ctx, EntityPtr player);
+        void init(GameContext& ctx, GameEntityPtr player);
         void setMap(Map& map);
 
-        void registerObject(EntityPtr entity);
-        void unregisterObject(EntityPtr entity);
+        void registerObject(GameEntityPtr entity);
+        void unregisterObject(GameEntityPtr entity);
 
     private:
         RenderSystem();
@@ -30,7 +29,7 @@ class RenderSystem {
 
         Map* _terrainPtr;
         EntitySet _objects;
-        EntityPtr _player;
+        GameEntityPtr _player;
         EntitySet _weather;
         EntitySet _gui;
 
