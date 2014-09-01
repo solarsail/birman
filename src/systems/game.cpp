@@ -12,7 +12,7 @@ Game::Game(const Configuration& conf, GameEntityPtr player) :
 							conf.get(ConfigItem::WindowHeight).as<unsigned>())),
 	_player(player)
 {
-	std::string mapName = conf.get(ConfigItem::MapName);
+	std::string mapName = conf.get(ConfigItem::MapName).as<std::string>();
 	if (mapName == "TestMap")
 		_map = MapLoader::loadTestMap();
 	else
