@@ -1,4 +1,6 @@
+#include <iostream>
 #include "systems/eventkey.hpp"
+#include "systems/command.hpp"
 
 Systemkeys::Systemkeys()
 {
@@ -32,7 +34,7 @@ bool Systemkeys::TestEvent(MyKeys k,sf::Event e)
 	{
 		return true;
 	}
-
+	
 	//handle keyboard event
 	if (k.myInputType == InputType::KeyboardInput &&
 		k.myEventType == e.type &&
@@ -44,7 +46,7 @@ bool Systemkeys::TestEvent(MyKeys k,sf::Event e)
 	return false;
 }
 
-void Systemkeys::HandleEvent(sf::Event e)
+void Systemkeys::HandleEvent(sf::Event e,CommandQueue& queue,CommandSet& set)
 {
 	if (TestEvent(Keys["left"],e))
 	{
@@ -56,7 +58,7 @@ void Systemkeys::HandleEvent(sf::Event e)
 	}
 	if (TestEvent(Keys["up"],e))
 	{
-		//move up
+		queue.push(set.getCommand("moveup"));
 	}
 	if (TestEvent(Keys["down"],e))
 	{

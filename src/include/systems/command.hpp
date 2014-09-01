@@ -22,9 +22,9 @@ struct Command
 class CommandQueue
 {
 public:
-	void push(const Command& command);
-	Command pop();
-	bool isEmpty() const;
+	static void push(const Command& command);
+	static Command pop();
+	static bool isEmpty();
 private:
 	static std::queue<Command> _mQueue;
 };
@@ -34,6 +34,7 @@ class CommandSet
 public:
 	CommandSet();
 	void setCommand(std::string,Command);
+	Command getCommand(std::string);
 private:
 	Command cmd;
 	static std::map<std::string,Command> _commandset;

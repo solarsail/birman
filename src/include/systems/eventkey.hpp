@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+class CommandQueue;
+class CommandSet;
 
 enum InputType
 {
@@ -20,7 +22,7 @@ class Systemkeys
 {
 public:
 		Systemkeys();
-		void HandleEvent(sf::Event e);
+		void HandleEvent(sf::Event,CommandQueue&,CommandSet&);
 private:
 		bool TestEvent(MyKeys k,sf::Event e);
 		static std::map<std::string,MyKeys> Keys;
