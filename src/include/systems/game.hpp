@@ -6,6 +6,7 @@
 #include "configuration.hpp"
 #include "entity.hpp"
 #include "systems/map.hpp"
+#include "systems/resources.hpp"
 
 class Game {
 	public:

@@ -1,31 +1,36 @@
 #include <SFML/Graphics.hpp>
 #include "components/sprite.hpp"
 
-SpriteComponent::SpriteComponent(SpritePtr sprite)
-    : _sprite(sprite)
+SpriteComponent::SpriteComponent()
+{ }
+
+void SpriteComponent::setTexture(TexturePtr t)
 {
-    auto bounds = _sprite->getLocalBounds();
-    _sprite->setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+	_sprite.setTexture(*t, true);
+    auto bounds = _sprite.getLocalBounds();
+    _sprite.setOrigin(bounds.width / 2.f, bounds.height);
+	_entity->notify(Property::Sprite);
 }
 
-sf::Vector2f SpriteComponent::getCenter()
+sf::Vector2f SpriteComponent::getPosition() const
 {
-    return _sprite->getPosition();
+    return _sprite.getPosition();
 }
 
 void SpriteComponent::bindListeners()
 {
-    _entity->listen("ScreenPos", [this](sf::Vector2f pos){ this->_sprite->setPosition(pos); });
+    _entity->listen(Property::WorldPosition, [this](sf::Vector2f pos){ _sprite.setPosition(pos); });
 }
 
 void SpriteComponent::registerProperties()
 {
-    _entity->provideProperty(Property::Sprite, [this]() { return _sprite; }, nullptr);
+	_entity->provideProperty(Property::Sprite, [this]() { return _sprite; }, nullptr);
+	_entity->provideProperty(Property::SpriteTexture, nullptr, [this](Any v) { setTexture(v); });
 }
 
-bool operator <(const SpriteComponent::SpritePtr& a, const SpriteComponent::SpritePtr& b)
+bool operator <(const SpriteComponent& a, const SpriteComponent& b)
 {
-    auto thispos = a->getPosition();
-    auto otherpos = b->getPosition();
-    return thispos.x + thispos.y < otherpos.x + otherpos.y;
+    auto thispos = a.getPosition();
+    auto otherpos = b.getPosition();
+    return thispos.y < otherpos.y;
 }

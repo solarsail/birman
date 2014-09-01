@@ -50,6 +50,10 @@ void RenderSystem::process(GameContext& ctx)
     ctx.window.setView(view);
     ctx.window.draw(*_mapSlicePtr);
     // TODO: draw objects, player, etc.
+	for (const GameEntityPtr& ep : _objects) {
+		sf::Sprite sp = ep->getProperty(Property::Sprite);
+		ctx.window.draw(sp);
+	}
     ctx.window.display();
 }
 
