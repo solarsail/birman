@@ -12,7 +12,7 @@ Game::Game(const Configuration& conf, GameEntityPtr player) :
 							conf.get(ConfigItem::WindowHeight).as<unsigned>())),
 	_player(player)
 {
-	std::string mapName = conf.get(ConfigItem::MapName);
+	std::string mapName = conf.get(ConfigItem::MapName).as<std::string>();
 	if (mapName == "TestMap")
 		_map = MapLoader::loadTestMap();
 	else
@@ -53,7 +53,7 @@ void Game::processEvents()
 float InvSqrt (float x) {
     float xhalf = 0.5f * x;
     int i = *(int*)&x;
-    i = 0x5f3759df - (i>>1);
+    i = 0x5f375a86 - (i>>1);
     x = *(float*)&i;
     x = x * (1.5f - xhalf*x*x);
     return x;
