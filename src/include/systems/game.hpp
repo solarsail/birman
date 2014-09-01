@@ -16,6 +16,7 @@ class Game {
 	private:
 		// FIXME: 应被事件处理系统取代
 		void processEvents();
+		void update(sf::Time t);
 
 		sf::RenderWindow _window;
 		sf::View _mainView;

@@ -14,6 +14,7 @@ class PositionComponent : public Component {
 
     protected:
 		void registerProperties() override;
+        void bindListeners() override;
 
     private:
         sf::Vector2f _world_pos;

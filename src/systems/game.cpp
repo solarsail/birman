@@ -1,6 +1,7 @@
 #include "context.hpp"
 #include "systems/game.hpp"
 #include "systems/render.hpp"
+#include "utility.hpp"
 
 Game::Game(const Configuration& conf, GameEntityPtr player) :
 	_window(sf::VideoMode(conf.get(ConfigItem::WindowWidth),
@@ -25,50 +26,80 @@ void Game::processEvents()
 	while (_window.pollEvent(event)) {
 		if(event.type == sf::Event::Closed)
 			_window.close();
-		else if (event.type == sf::Event::KeyPressed) {
-			sf::Vector2f pos = _player->getProperty(Property::WorldPosition);
+		else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
+            Direction d = _player->getProperty(Property::Direction);
 			switch (event.key.code) {
 				case sf::Keyboard::W:
-					pos.y -= 5;
+                    d.up = (event.type == sf::Event::KeyPressed);
 					break;
 				case sf::Keyboard::S:
-					pos.y += 5;
+                    d.down = (event.type == sf::Event::KeyPressed);
 					break;
 				case sf::Keyboard::A:
-					pos.x -= 5;
+                    d.left = (event.type == sf::Event::KeyPressed);
 					break;
 				case sf::Keyboard::D:
-					pos.x += 5;
+                    d.right = (event.type == sf::Event::KeyPressed);
 					break;
 				default:
 					break;
 			}
-			_player->setProperty(Property::WorldPosition, pos);
+			_player->setProperty(Property::Direction, d);
 		}
 	}
 
 }
 
+float InvSqrt (float x) {
+    float xhalf = 0.5f * x;
+    int i = *(int*)&x;
+    i = 0x5f3759df - (i>>1);
+    x = *(float*)&i;
+    x = x * (1.5f - xhalf*x*x);
+    return x;
+}
+
+void Game::update(sf::Time timeDelta)
+{
+    Direction d = _player->getProperty(Property::Direction);
+    float speed = _player->getProperty(Property::Speed);
+    sf::Vector2f v(0.f, 0.f);
+    if (d.up)
+        v.y -= speed;
+    if (d.down)
+        v.y += speed;
+    if (d.left)
+        v.x -= speed;
+    if (d.right)
+        v.x += speed;
+    // 归一化
+    v *= speed * InvSqrt(v.x * v.x + v.y * v.y);
+
+    _player->setProperty(Property::Velocity, v);
+    _player->setProperty(Property::MovementTime, timeDelta);
+}
+
 int Game::run()
 {
-	GameContext ctx = { _window, _mainView, _map };
-	RenderSystem& renderer = RenderSystem::get();
-	renderer.init(ctx, _player);
+    GameContext ctx = { _window, _mainView, _map };
+    RenderSystem& renderer = RenderSystem::get();
+    renderer.init(ctx, _player);
 
-	sf::Clock clock;
-	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	const auto TimePerFrame = sf::seconds(1.f / 60.f);
+    sf::Clock clock;
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    const auto TimePerFrame = sf::seconds(1.f / 60.f);
 
-	while (_window.isOpen()) {
-		timeSinceLastUpdate += clock.restart();
-		while (timeSinceLastUpdate > TimePerFrame) {
-			timeSinceLastUpdate -= TimePerFrame;
-			processEvents();
-		}
+    while (_window.isOpen()) {
+        timeSinceLastUpdate += clock.restart();
+        while (timeSinceLastUpdate > TimePerFrame) {
+            timeSinceLastUpdate -= TimePerFrame;
+            processEvents();
+            update(TimePerFrame);
+        }
 
-		renderer.process(ctx);
-	}
+        renderer.process(ctx);
+    }
 
-	return 0;
+    return 0;
 }
 

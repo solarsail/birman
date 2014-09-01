@@ -29,5 +29,15 @@ float PositionComponent::getWorldZ() const
 
 void PositionComponent::registerProperties()
 {
-    _entity->provideProperty(Property::WorldPosition, [this]() { return getWorldPos(); }, [this](Any v) { this->setWorldPos(v);  });
+    _entity->provideProperty(Property::WorldPosition, [this]() { return getWorldPos(); }, [this](Any v) { this->setWorldPos(v); });
+}
+
+void PositionComponent::bindListeners()
+{
+    _entity->listen(Property::MovementTime, [this](sf::Time t) {
+            auto pos = _world_pos;
+            sf::Vector2f v = _entity->getProperty(Property::Velocity);
+            pos += v * t.asSeconds();
+            setWorldPos(pos);
+    });
 }

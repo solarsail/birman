@@ -17,7 +17,7 @@ $(OUTDIR)/command-test: $(OBJDIR)/entity-command-test.o $(COMPONENT_OBJ)
 $(OUTDIR)/map-test: $(OBJDIR)/map-test.o $(OBJDIR)/map.o
 	$(LINK) -o $@ $^ $(LIBS)
 
-$(OUTDIR)/render-test: $(OBJDIR)/render-test.o $(OBJDIR)/map.o $(OBJDIR)/render.o $(COMPONENT_OBJ) $(OBJDIR)/position.o $(OBJDIR)/game.o
+$(OUTDIR)/render-test: $(OBJDIR)/render-test.o $(OBJDIR)/map.o $(OBJDIR)/render.o $(COMPONENT_OBJ) $(OBJDIR)/position.o $(OBJDIR)/movable.o $(OBJDIR)/game.o
 	$(LINK) -o $@ $^ $(LIBS)
 
 $(OUTDIR)/sfml-test: $(OBJDIR)/sfml-test.o

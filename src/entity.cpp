@@ -48,8 +48,13 @@ void GameEntity::setProperty(const std::string& id, Any value)
 
 void GameEntity::provideProperty(const std::string& id, ValueProvider getter, ValueConsumer setter)
 {
-	auto result = _bindings.insert(std::make_pair(id, std::make_tuple(getter, setter, std::vector<ValueConsumer>())));
-	assert(result.second);  // 确认插入成功，防止重复插入
+	auto found = _bindings.find(id);
+    if (found == _bindings.end())
+	    _bindings.insert(std::make_pair(id, std::make_tuple(getter, setter, std::vector<ValueConsumer>())));
+    else {
+        std::get<0>(found->second) = getter;
+        std::get<1>(found->second) = setter;
+    }
 }
 
 void GameEntity::onCommand(Command& command)

@@ -4,7 +4,6 @@ $(OBJDIR)/%.o : %.cpp
 	$(CC) $(CXXFLAGS) -o $@ $<
 
 all: $(OBJS) subsystem
-	echo $(OBJS)
 
 $(OBJS): | $(OBJDIR)
 

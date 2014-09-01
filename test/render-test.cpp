@@ -1,5 +1,6 @@
 #include "context.hpp"
 #include "components/position.hpp"
+#include "components/movable.hpp"
 #include "componentfactory.hpp"
 #include "configuration.hpp"
 #include "entityfactory.hpp"
@@ -13,9 +14,12 @@ GameEntityPtr loadPlayer()
 {
 	auto player = GameEntityFactory::newEntity();
 	auto pos = ComponentFactory::create<PositionComponent>();
+	auto mov = ComponentFactory::create<MovableComponent>();
 	player->attachComponent(pos);
+	player->attachComponent(mov);
     player->setProperty(Property::WorldPosition, sf::Vector2f(1600, 1600));
 	player->setCategory(Category::Windowview);
+	player->setProperty(Property::Speed, 64.f);
 
 	return player;
 }

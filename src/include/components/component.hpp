@@ -8,6 +8,10 @@ namespace Property {
     static const char* WorldPosition = "WorldPos";
     static const char* WorldZ = "WorldZ";
     static const char* Sprite = "Sprite";
+    static const char* Speed = "Speed";
+    static const char* Direction = "Direction";
+    static const char* Velocity = "Velocity";
+    static const char* MovementTime = "MovementTime";
 }
 
 class ComponentFactory;
