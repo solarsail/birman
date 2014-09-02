@@ -50,11 +50,11 @@ void Systemkeys::HandleEvent(sf::Event e,CommandQueue& queue,CommandSet& set)
 {
 	if (TestEvent(Keys["left"],e))
 	{
-		//move left
+		queue.push(set.getCommand("moveleft"));
 	}
 	if (TestEvent(Keys["right"],e))
 	{
-		//move right
+		queue.push(set.getCommand("moveright"));
 	}
 	if (TestEvent(Keys["up"],e))
 	{
@@ -62,7 +62,7 @@ void Systemkeys::HandleEvent(sf::Event e,CommandQueue& queue,CommandSet& set)
 	}
 	if (TestEvent(Keys["down"],e))
 	{
-		//move down
+		queue.push(set.getCommand("movedown"));
 	}
 }
 

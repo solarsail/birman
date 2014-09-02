@@ -26,26 +26,27 @@ void Game::processEvents()
 	while (_window.pollEvent(event)) {
 		if(event.type == sf::Event::Closed)
 			_window.close();
-		else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
-            Direction d = _player->getProperty(Property::Direction);
-			switch (event.key.code) {
-				case sf::Keyboard::W:
-                    d.up = (event.type == sf::Event::KeyPressed);
-					break;
-				case sf::Keyboard::S:
-                    d.down = (event.type == sf::Event::KeyPressed);
-					break;
-				case sf::Keyboard::A:
-                    d.left = (event.type == sf::Event::KeyPressed);
-					break;
-				case sf::Keyboard::D:
-                    d.right = (event.type == sf::Event::KeyPressed);
-					break;
-				default:
-					break;
-			}
-			_player->setProperty(Property::Direction, d);
-		}
+		//else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
+         //   Direction d = _player->getProperty(Property::Direction);
+		//	switch (event.key.code) {
+		//		case sf::Keyboard::W:
+  //                  d.up = (event.type == sf::Event::KeyPressed);
+		//			break;
+		//		case sf::Keyboard::S:
+  //                  d.down = (event.type == sf::Event::KeyPressed);
+		//			break;
+		//		case sf::Keyboard::A:
+  //                  d.left = (event.type == sf::Event::KeyPressed);
+		//			break;
+		//		case sf::Keyboard::D:
+  //                  d.right = (event.type == sf::Event::KeyPressed);
+		//			break;
+		//		default:
+		//			break;
+		//	}
+		//	_player->setProperty(Property::Direction, d);
+		//}
+		_systemkey.HandleEvent(event,_cmdqueue,_cmdset);
 	}
 
 }
@@ -96,7 +97,14 @@ int Game::run()
             processEvents();
             update(TimePerFrame);
         }
-
+		if(!_cmdqueue.isEmpty())
+		{
+			while(!_cmdqueue.isEmpty())
+			{
+				Command tmp = _cmdqueue.pop();
+				_player->onCommand(tmp);
+			}	
+		}
         renderer.process(ctx);
     }
 

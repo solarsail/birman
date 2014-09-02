@@ -1,6 +1,7 @@
 #include "systems/command.hpp"
 #include "entity.hpp"
 #include "components/component.hpp"
+#include "utility.hpp"
 
 void CommandQueue::push(const Command& command)
 {
@@ -34,11 +35,38 @@ CommandSet::CommandSet()
 	cmd.categoryMask.addType(Category::Windowview);
 	cmd.action =  [](GameEntity& entity)
 	{
-		sf::Vector2f pos = entity.getProperty(Property::WorldPosition);
-		pos.y -= 5;
-		entity.setProperty(Property::WorldPosition, pos);
+		Direction d = entity.getProperty(Property::Direction);
+		d.up = true;
+		entity.setProperty(Property::Direction, d);
 	};
 	setCommand("moveup",cmd);
+
+	cmd.categoryMask.addType(Category::Windowview);
+	cmd.action =  [](GameEntity& entity)
+	{
+		Direction d = entity.getProperty(Property::Direction);
+		d.down = true;
+		entity.setProperty(Property::Direction, d);
+	};
+	setCommand("movedown",cmd);
+
+	cmd.categoryMask.addType(Category::Windowview);
+	cmd.action =  [](GameEntity& entity)
+	{
+		Direction d = entity.getProperty(Property::Direction);
+		d.right = true;
+		entity.setProperty(Property::Direction, d);
+	};
+	setCommand("moveright",cmd);
+
+	cmd.categoryMask.addType(Category::Windowview);
+	cmd.action =  [](GameEntity& entity)
+	{
+		Direction d = entity.getProperty(Property::Direction);
+		d.left = true;
+		entity.setProperty(Property::Direction, d);
+	};
+	setCommand("moveleft",cmd);
 }
 
 std::queue<Command> CommandQueue::_mQueue;

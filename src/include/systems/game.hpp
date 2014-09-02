@@ -6,6 +6,9 @@
 #include "configuration.hpp"
 #include "entity.hpp"
 #include "systems/map.hpp"
+#include "systems/eventkey.hpp"
+#include "command.hpp"
+
 
 class Game {
 	public:
@@ -22,4 +25,7 @@ class Game {
 		sf::View _mainView;
 		Map _map;
 		GameEntityPtr _player;
+		Systemkeys _systemkey;
+		CommandQueue _cmdqueue;
+		CommandSet _cmdset;
 };
