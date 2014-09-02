@@ -45,8 +45,9 @@ GameEntityPtr loadPlayer()
 	player->attachComponent(mov);
 	player->attachComponent(sprite);
 	player->setCategory(Category::Windowview);
-	player->setProperty(Property::AniIndex, 0x01000000U);
+	// 务必最先初始化材质
 	player->setProperty(Property::ObjectTexture, playerTexture);
+	player->setProperty(Property::AniIndex, Direction::SOUTH/*0x01000000U*/);
     player->setProperty(Property::WorldPosition, sf::Vector2f(1600, 1600));
 	player->setProperty(Property::Speed, 64.f);
 
@@ -63,7 +64,7 @@ int main()
 	conf.set(ConfigItem::WindowTitle, std::string("Map Render Test"));
 
 	auto& textures = TextureHolder::get();
-	textures.load(TextureID::TestPlayer, "../assets/textures/player.png", sf::IntRect(32, 0, 32, 32));
+	textures.load(TextureID::TestPlayer, "../assets/textures/player.png");
 
 	Game game(conf, loadPlayer());
 	return game.run();

@@ -25,14 +25,14 @@ void AnimatedSpriteComponent::setFrame(size_t frame)
 {
     const sf::IntRect& rect = _currentAni->getFrame(frame);
     _sprite.setTextureRect(rect);
+	_sprite.setOrigin(rect.width / 2, rect.height);
 }
 
 void AnimatedSpriteComponent::setState(AniState s)
 {
     if (s == AniState::Play) {
-        _currentFrame = 0;
-        _currentTime = sf::Time::Zero;
-        setFrame(0);
+        _paused = false;
+        setFrame(_currentFrame);
     } else if (s == AniState::Pause) {
         _paused = true;
     } else {    // AniState::Stop
@@ -69,6 +69,7 @@ void AnimatedSpriteComponent::update(sf::Time deltaTime)
 void AnimatedSpriteComponent::useAnimation(unsigned index)
 {
     _currentAni = &(_animations.at(index));
+	setFrame(_currentFrame);
 }
 
 void AnimatedSpriteComponent::registerProperties()

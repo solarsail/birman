@@ -9,7 +9,7 @@ class AnimatedSpriteComponent : public Component {
     public:
 		typedef std::shared_ptr<sf::Texture> TexturePtr;
 
-        explicit AnimatedSpriteComponent(sf::Time frameTime = sf::seconds(0.2f), bool paused = false, bool looped = true);
+        explicit AnimatedSpriteComponent(sf::Time frameTime = sf::seconds(0.1f), bool paused = false, bool looped = true);
         void addAnimation(unsigned index, const AnimationData& animation);
         void setFrameTime(sf::Time time);
         void setState(AniState s);
