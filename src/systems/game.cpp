@@ -32,16 +32,16 @@ void Game::processEvents()
             bool pressed = (event.type == sf::Event::KeyPressed);
             switch (event.key.code) {
                 case sf::Keyboard::W:
-                    d.up = pressed;
+                    d.north = pressed;
                     break;
                 case sf::Keyboard::S:
-                    d.down = pressed;
+                    d.south = pressed;
                     break;
                 case sf::Keyboard::A:
-                    d.left = pressed;
+                    d.west = pressed;
                     break;
                 case sf::Keyboard::D:
-                    d.right = pressed;
+                    d.east = pressed;
                     break;
                 default:
                     break;
@@ -78,6 +78,7 @@ void Game::update(sf::Time timeDelta)
         _player->setProperty(Property::AniState, AniState::Stop);
     }
 
+    _player->setProperty(Property::AniPlayedTime, timeDelta);
     _player->setProperty(Property::Velocity, v);
     _player->setProperty(Property::MovementTime, timeDelta);
 }

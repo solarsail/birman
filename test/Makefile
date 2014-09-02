@@ -18,7 +18,7 @@ $(OUTDIR)/map-test: $(OBJDIR)/map-test.o $(OBJDIR)/map.o
 	$(LINK) -o $@ $^ $(LIBS)
 
 $(OUTDIR)/render-test: $(addprefix $(OBJDIR)/, animation.o render-test.o map.o render.o position.o animated-sprite.o movable.o game.o utility.o eventkey.o command.o) $(COMPONENT_OBJ) 
-	$(LINK) -o $@ $^ $(LIBS) -DWITHOUT_COMMAND
+	$(LINK) -o $@ $^ $(LIBS)
 
 $(OUTDIR)/sfml-test: $(OBJDIR)/sfml-test.o
 	$(LINK) -o $@ $^ $(LIBS)

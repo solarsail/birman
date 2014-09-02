@@ -15,6 +15,7 @@ namespace Property {
     static const char* MovementTime = "MovementTime";
     static const char* AniState = "AniState";
     static const char* AniIndex = "AniIndex";
+    static const char* AniPlayedTime = "AniPlayedTime";
 }
 
 class ComponentFactory;
