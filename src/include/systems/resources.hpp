@@ -6,6 +6,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <SFML/Graphics.hpp>
 
 enum class TextureID : std::uint8_t
 {
@@ -26,26 +27,35 @@ enum class TextureID : std::uint8_t
     Wall_wood_left,
     Wall_wood_right,
 
-	TestSP,
+	TestPlayer,
+	TestMap,
     // ...
 };
 
 
 template <typename Resource, typename ID>
-class TextureHolder {
+class ResourceHolder {
     public:
+		typedef std::shared_ptr<Resource> ResPtr;
+
+		static ResourceHolder<Resource, ID>& get();
         void load(ID id, const std::string& filename);
         template <typename Param>
         void load(ID id, const std::string& filename, const Param& p);
-        Resource& get(ID id);
-        const Resource& get(ID id) const;
+        ResPtr get(ID id);
+        const ResPtr get(ID id) const;
         
     private:
-        void insert_resource(ID id, std::shared_ptr<Resource> res);
+		ResourceHolder();
+		ResourceHolder(const ResourceHolder<Resource, ID>&);
+		ResourceHolder<Resource, ID>& operator=(const ResourceHolder<Resource, ID>&);
+        void insert_resource(ID id, ResPtr res);
 
     private:
-        std::map<ID, std::shared_ptr<Resource>> _texture_map;
+        std::map<ID, ResPtr> _resource_map;
 };
+
+typedef ResourceHolder<sf::Texture, TextureID> TextureHolder;
 
 
 #include "resources.inl"

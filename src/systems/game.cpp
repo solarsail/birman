@@ -51,15 +51,6 @@ void Game::processEvents()
 
 }
 
-float InvSqrt (float x) {
-    float xhalf = 0.5f * x;
-    int i = *(int*)&x;
-    i = 0x5f375a86 - (i>>1);
-    x = *(float*)&i;
-    x = x * (1.5f - xhalf*x*x);
-    return x;
-}
-
 void Game::update(sf::Time timeDelta)
 {
     Direction d = _player->getProperty(Property::Direction);
@@ -74,7 +65,7 @@ void Game::update(sf::Time timeDelta)
     if (d.right)
         v.x += speed;
     // 归一化
-    v *= speed * InvSqrt(v.x * v.x + v.y * v.y);
+    v *= speed * util::invSqrt(v.x * v.x + v.y * v.y);
 
     _player->setProperty(Property::Velocity, v);
     _player->setProperty(Property::MovementTime, timeDelta);
@@ -85,6 +76,7 @@ int Game::run()
     GameContext ctx = { _window, _mainView, _map };
     RenderSystem& renderer = RenderSystem::get();
     renderer.init(ctx, _player);
+	renderer.registerObject(_player);
 
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;

@@ -8,7 +8,7 @@
 #include "systems/map.hpp"
 #include "systems/eventkey.hpp"
 #include "command.hpp"
-
+#include "systems/resources.hpp"
 
 class Game {
 	public:
