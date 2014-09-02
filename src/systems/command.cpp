@@ -36,7 +36,7 @@ CommandSet::CommandSet()
 	cmd.action =  [](GameEntity& entity)
 	{
 		Direction d = entity.getProperty(Property::Direction);
-		d.up = true;
+		d.north = true;
 		entity.setProperty(Property::Direction, d);
 	};
 	setCommand("moveup",cmd);
@@ -45,7 +45,7 @@ CommandSet::CommandSet()
 	cmd.action =  [](GameEntity& entity)
 	{
 		Direction d = entity.getProperty(Property::Direction);
-		d.down = true;
+		d.south = true;
 		entity.setProperty(Property::Direction, d);
 	};
 	setCommand("movedown",cmd);
@@ -54,7 +54,7 @@ CommandSet::CommandSet()
 	cmd.action =  [](GameEntity& entity)
 	{
 		Direction d = entity.getProperty(Property::Direction);
-		d.right = true;
+		d.east = true;
 		entity.setProperty(Property::Direction, d);
 	};
 	setCommand("moveright",cmd);
@@ -63,7 +63,7 @@ CommandSet::CommandSet()
 	cmd.action =  [](GameEntity& entity)
 	{
 		Direction d = entity.getProperty(Property::Direction);
-		d.left = true;
+		d.west = true;
 		entity.setProperty(Property::Direction, d);
 	};
 	setCommand("moveleft",cmd);

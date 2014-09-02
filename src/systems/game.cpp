@@ -22,32 +22,36 @@ Game::Game(const Configuration& conf, GameEntityPtr player) :
 
 void Game::processEvents()
 {
-	sf::Event event;
-	while (_window.pollEvent(event)) {
-		if(event.type == sf::Event::Closed)
-			_window.close();
-		//else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
-         //   Direction d = _player->getProperty(Property::Direction);
-		//	switch (event.key.code) {
-		//		case sf::Keyboard::W:
-  //                  d.up = (event.type == sf::Event::KeyPressed);
-		//			break;
-		//		case sf::Keyboard::S:
-  //                  d.down = (event.type == sf::Event::KeyPressed);
-		//			break;
-		//		case sf::Keyboard::A:
-  //                  d.left = (event.type == sf::Event::KeyPressed);
-		//			break;
-		//		case sf::Keyboard::D:
-  //                  d.right = (event.type == sf::Event::KeyPressed);
-		//			break;
-		//		default:
-		//			break;
-		//	}
-		//	_player->setProperty(Property::Direction, d);
-		//}
-		_systemkey.HandleEvent(event,_cmdqueue,_cmdset);
-	}
+    sf::Event event;
+    while (_window.pollEvent(event)) {
+        if(event.type == sf::Event::Closed)
+            _window.close();
+#ifdef WITHOUT_COMMAND
+        else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
+            Direction d = _player->getProperty(Property::Direction);
+            bool pressed = (event.type == sf::Event::KeyPressed);
+            switch (event.key.code) {
+                case sf::Keyboard::W:
+                    d.up = pressed;
+                    break;
+                case sf::Keyboard::S:
+                    d.down = pressed;
+                    break;
+                case sf::Keyboard::A:
+                    d.left = pressed;
+                    break;
+                case sf::Keyboard::D:
+                    d.right = pressed;
+                    break;
+                default:
+                    break;
+            }
+            _player->setProperty(Property::Direction, d);
+        }
+#else
+        _systemkey.HandleEvent(event,_cmdqueue,_cmdset);
+#endif
+    }
 
 }
 
@@ -56,16 +60,23 @@ void Game::update(sf::Time timeDelta)
     Direction d = _player->getProperty(Property::Direction);
     float speed = _player->getProperty(Property::Speed);
     sf::Vector2f v(0.f, 0.f);
-    if (d.up)
+    if (d.north)
         v.y -= speed;
-    if (d.down)
+    if (d.south)
         v.y += speed;
-    if (d.left)
+    if (d.west)
         v.x -= speed;
-    if (d.right)
+    if (d.east)
         v.x += speed;
     // 归一化
     v *= speed * util::invSqrt(v.x * v.x + v.y * v.y);
+
+    if (d.code != 0) {
+        _player->setProperty(Property::AniIndex, d.code);
+        _player->setProperty(Property::AniState, AniState::Play);
+    } else {
+        _player->setProperty(Property::AniState, AniState::Stop);
+    }
 
     _player->setProperty(Property::Velocity, v);
     _player->setProperty(Property::MovementTime, timeDelta);
@@ -76,7 +87,7 @@ int Game::run()
     GameContext ctx = { _window, _mainView, _map };
     RenderSystem& renderer = RenderSystem::get();
     renderer.init(ctx, _player);
-	renderer.registerObject(_player);
+    renderer.registerObject(_player);
 
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -86,17 +97,15 @@ int Game::run()
         timeSinceLastUpdate += clock.restart();
         while (timeSinceLastUpdate > TimePerFrame) {
             timeSinceLastUpdate -= TimePerFrame;
+#ifndef WITHOUT_COMMAND
+            while(!_cmdqueue.isEmpty()) {
+                Command tmp = _cmdqueue.pop();
+                _player->onCommand(tmp);
+            }
+#endif
             processEvents();
             update(TimePerFrame);
         }
-		if(!_cmdqueue.isEmpty())
-		{
-			while(!_cmdqueue.isEmpty())
-			{
-				Command tmp = _cmdqueue.pop();
-				_player->onCommand(tmp);
-			}	
-		}
         renderer.process(ctx);
     }
 

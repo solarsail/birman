@@ -9,7 +9,7 @@ void SpriteComponent::setTexture(TexturePtr t)
 	_sprite.setTexture(*t, true);
     auto bounds = _sprite.getLocalBounds();
     _sprite.setOrigin(bounds.width / 2.f, bounds.height);
-	_entity->notify(Property::Sprite);
+	_entity->notify(Property::Drawable);
 }
 
 sf::Vector2f SpriteComponent::getPosition() const
@@ -24,8 +24,8 @@ void SpriteComponent::bindListeners()
 
 void SpriteComponent::registerProperties()
 {
-	_entity->provideProperty(Property::Sprite, [this]() { return _sprite; }, nullptr);
-	_entity->provideProperty(Property::SpriteTexture, nullptr, [this](Any v) { setTexture(v); });
+	_entity->provideProperty(Property::Drawable, [this]() { return static_cast<sf::Drawable*>(&_sprite); }, nullptr);
+	_entity->provideProperty(Property::ObjectTexture, nullptr, [this](Any v) { setTexture(v); });
 }
 
 bool operator <(const SpriteComponent& a, const SpriteComponent& b)

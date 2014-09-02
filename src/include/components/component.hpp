@@ -7,12 +7,14 @@
 namespace Property {
     static const char* WorldPosition = "WorldPos";
     static const char* WorldZ = "WorldZ";
-    static const char* Sprite = "Sprite";
-    static const char* SpriteTexture = "SpriteTexture";
+    static const char* Drawable = "Drawable";
+    static const char* ObjectTexture = "ObjectTexture";
     static const char* Speed = "Speed";
     static const char* Direction = "Direction";
     static const char* Velocity = "Velocity";
     static const char* MovementTime = "MovementTime";
+    static const char* AniState = "AniState";
+    static const char* AniIndex = "AniIndex";
 }
 
 class ComponentFactory;
