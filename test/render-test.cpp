@@ -23,7 +23,7 @@ GameEntityPtr loadPlayer()
 	auto sprite = ComponentFactory::create<AnimatedSpriteComponent>();
 	auto playerTexture = textures.get(TextureID::TestPlayer);
 	playerTexture->setSmooth(true);
-    // 构建动画帧
+    // 构建动画�?
     AnimationData south({{32, 0, 32, 32}, {64, 0, 32, 32}, {32, 0, 32, 32}, {0, 0, 32, 32}});
     AnimationData west({{32, 32, 32, 32}, {64, 32, 32, 32}, {32, 32, 32, 32}, {0, 32, 32, 32}});
     AnimationData east({{32, 64, 32, 32}, {64, 64, 32, 32}, {32, 64, 32, 32}, {0, 64, 32, 32}});
