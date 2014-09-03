@@ -10,11 +10,11 @@ class AnimatedSpriteComponent : public Component {
 		typedef std::shared_ptr<sf::Texture> TexturePtr;
 
         explicit AnimatedSpriteComponent(sf::Time frameTime = sf::seconds(0.1f), bool paused = false, bool looped = true);
-        void addAnimation(unsigned index, const AnimationData& animation);
+        void addAnimation(Direction::CodeType index, const AnimationData& animation);
         void setFrameTime(sf::Time time);
         void setState(AniState s);
 		void setTexture(TexturePtr t);
-        void useAnimation(unsigned index);
+        void useAnimation(Direction::CodeType index);
         void setLoop(bool loop);
 
     protected:
@@ -24,7 +24,7 @@ class AnimatedSpriteComponent : public Component {
         void bindListeners() override;
 
     private:
-        std::map<unsigned, AnimationData> _animations;
+        std::map<Direction::CodeType, AnimationData> _animations;
         AnimationData* _currentAni;
         sf::Time _frameTime;
         sf::Time _currentTime;

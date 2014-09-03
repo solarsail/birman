@@ -47,7 +47,7 @@ GameEntityPtr loadPlayer()
 	player->setCategory(Category::Windowview);
 	// 务必最先初始化材质
 	player->setProperty(Property::ObjectTexture, playerTexture);
-	player->setProperty(Property::AniIndex, Direction::SOUTH/*0x01000000U*/);
+	player->setProperty(Property::AniIndex, /*Direction::SOUTH*/(unsigned char)0x10U);
     player->setProperty(Property::WorldPosition, sf::Vector2f(1600, 1600));
 	player->setProperty(Property::Speed, 64.f);
 

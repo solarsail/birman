@@ -29,19 +29,19 @@ void Game::processEvents()
 #ifdef WITHOUT_COMMAND
         else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
             Direction d = _player->getProperty(Property::Direction);
-            bool pressed = (event.type == sf::Event::KeyPressed);
+            int pressed = (event.type == sf::Event::KeyPressed)? 1 : -1;
             switch (event.key.code) {
                 case sf::Keyboard::W:
-                    d.north = pressed;
+                    d.setNS(-pressed);
                     break;
                 case sf::Keyboard::S:
-                    d.south = pressed;
+                    d.setNS(pressed);
                     break;
                 case sf::Keyboard::A:
-                    d.west = pressed;
+                    d.setWE(-pressed);
                     break;
                 case sf::Keyboard::D:
-                    d.east = pressed;
+                    d.setWE(pressed);
                     break;
                 default:
                     break;
@@ -60,19 +60,13 @@ void Game::update(sf::Time timeDelta)
     Direction d = _player->getProperty(Property::Direction);
     float speed = _player->getProperty(Property::Speed);
     sf::Vector2f v(0.f, 0.f);
-    if (d.north)
-        v.y -= speed;
-    if (d.south)
-        v.y += speed;
-    if (d.west)
-        v.x -= speed;
-    if (d.east)
-        v.x += speed;
+    v.y += d.NS() * speed;
+    v.x += d.WE() * speed;
     // 归一化
     v *= speed * util::invSqrt(v.x * v.x + v.y * v.y);
 
-    if (d.code != 0) {
-        _player->setProperty(Property::AniIndex, d.code);
+    if (d.code() != 0) {
+        _player->setProperty(Property::AniIndex, d.code());
         _player->setProperty(Property::AniState, AniState::Play);
     } else {
         _player->setProperty(Property::AniState, AniState::Stop);

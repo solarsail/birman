@@ -8,10 +8,10 @@ $(OBJDIR)/%.o : %.cpp
 
 all: $(TARGETS)
 
-$(OUTDIR)/entity-test: $(OBJDIR)/entity-component-test.o $(COMPONENT_OBJ)
+$(OUTDIR)/entity-test: $(OBJDIR)/entity-component-test.o $(OBJDIR)/utility.o $(COMPONENT_OBJ)
 	$(LINK) -o $@ $^
 
-$(OUTDIR)/command-test: $(OBJDIR)/entity-command-test.o $(COMPONENT_OBJ)
+$(OUTDIR)/command-test: $(OBJDIR)/entity-command-test.o $(OBJDIR)/utility.o $(COMPONENT_OBJ)
 	$(LINK) -o $@ $^
 
 $(OUTDIR)/map-test: $(OBJDIR)/map-test.o $(OBJDIR)/map.o

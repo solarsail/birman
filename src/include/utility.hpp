@@ -1,28 +1,36 @@
 #pragma once
 
-struct Direction {
-    static const unsigned NORTH = 0x01000000;
-    static const unsigned SOUTH = 0x00010000;
-    static const unsigned EAST  = 0x00000100;
-    static const unsigned WEST  = 0x00000001;
-    static const unsigned NE    = 0x01000100;
-    static const unsigned NW    = 0x01000001;
-    static const unsigned SE    = 0x00010100;
-    static const unsigned SW    = 0x00010001;
+class Direction {
+    public:
+        typedef unsigned char CodeType;
 
-    union {
-        unsigned code;
-        struct {
-            unsigned char west;
-            unsigned char east;
-            unsigned char south;
-            unsigned char north;
+        static const unsigned char NORTH = 0xF0;
+        static const unsigned char SOUTH = 0x10;
+        static const unsigned char WEST  = 0x0F;
+        static const unsigned char EAST  = 0x01;
+        static const unsigned char NE    = 0xF1;
+        static const unsigned char SE    = 0x11;
+        static const unsigned char NW    = 0xFF;
+        static const unsigned char SW    = 0x1F;
+
+        Direction();
+        Direction(unsigned char d);
+        operator unsigned char();
+
+        void setNS(char d);
+        void setWE(char d);
+        char NS() const;
+        char WE() const;
+        unsigned char code() const;
+
+    private:
+        union {
+            unsigned char _code;
+            struct {
+                char _we : 4;
+                char _ns : 4;
+            };
         };
-    };
-
-    Direction() : code(0) { }
-    Direction(unsigned d) : code(d) { }
-    operator unsigned() { return code; }
 };
 
 enum class AniState {

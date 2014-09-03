@@ -5,7 +5,7 @@ AnimatedSpriteComponent::AnimatedSpriteComponent(sf::Time frameTime, bool paused
         _paused(paused), _looped(looped)
 { }
 
-void AnimatedSpriteComponent::addAnimation(unsigned index, const AnimationData& ani)
+void AnimatedSpriteComponent::addAnimation(Direction::CodeType index, const AnimationData& ani)
 {
     auto result = _animations.insert(std::make_pair(index, ani));
     assert(result.second);
@@ -66,7 +66,7 @@ void AnimatedSpriteComponent::update(sf::Time deltaTime)
     }
 }
 
-void AnimatedSpriteComponent::useAnimation(unsigned index)
+void AnimatedSpriteComponent::useAnimation(Direction::CodeType index)
 {
     _currentAni = &(_animations.at(index));
 	setFrame(_currentFrame);
