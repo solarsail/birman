@@ -39,7 +39,16 @@ CommandSet::CommandSet()
 		d.setNS(-1);
 		entity.setProperty(Property::Direction, d);
 	};
-	setCommand("moveup",cmd);
+	setCommand("moveuppressed",cmd);
+
+	cmd.categoryMask.addType(Category::Windowview);
+	cmd.action = [](GameEntity& entity)
+	{
+		Direction d = entity.getProperty(Property::Direction);
+		d.setNS(1);
+		entity.setProperty(Property::Direction, d);
+	};
+	setCommand("moveupreleased", cmd);
 
 	cmd.categoryMask.addType(Category::Windowview);
 	cmd.action =  [](GameEntity& entity)
@@ -48,7 +57,16 @@ CommandSet::CommandSet()
 		d.setNS(1);
 		entity.setProperty(Property::Direction, d);
 	};
-	setCommand("movedown",cmd);
+	setCommand("movedownpressed",cmd);
+
+	cmd.categoryMask.addType(Category::Windowview);
+	cmd.action = [](GameEntity& entity)
+	{
+		Direction d = entity.getProperty(Property::Direction);
+		d.setNS(-1);
+		entity.setProperty(Property::Direction, d);
+	};
+	setCommand("movedownreleased", cmd);
 
 	cmd.categoryMask.addType(Category::Windowview);
 	cmd.action =  [](GameEntity& entity)
@@ -57,7 +75,16 @@ CommandSet::CommandSet()
 		d.setWE(1);
 		entity.setProperty(Property::Direction, d);
 	};
-	setCommand("moveright",cmd);
+	setCommand("moverightpressed",cmd);
+
+	cmd.categoryMask.addType(Category::Windowview);
+	cmd.action = [](GameEntity& entity)
+	{
+		Direction d = entity.getProperty(Property::Direction);
+		d.setWE(-1);
+		entity.setProperty(Property::Direction, d);
+	};
+	setCommand("moverightreleased", cmd);
 
 	cmd.categoryMask.addType(Category::Windowview);
 	cmd.action =  [](GameEntity& entity)
@@ -66,7 +93,16 @@ CommandSet::CommandSet()
 		d.setWE(-1);
 		entity.setProperty(Property::Direction, d);
 	};
-	setCommand("moveleft",cmd);
+	setCommand("moveleftpressed",cmd);
+
+	cmd.categoryMask.addType(Category::Windowview);
+	cmd.action = [](GameEntity& entity)
+	{
+		Direction d = entity.getProperty(Property::Direction);
+		d.setWE(1);
+		entity.setProperty(Property::Direction, d);
+	};
+	setCommand("moveleftreleased", cmd);
 }
 
 std::queue<Command> CommandQueue::_mQueue;

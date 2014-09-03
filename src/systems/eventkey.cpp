@@ -7,63 +7,99 @@ Systemkeys::Systemkeys()
 	key.myInputType = InputType::KeyboardInput;
 	key.myEventType = sf::Event::KeyPressed;
 	key.myKeyCode = sf::Keyboard::A;
-	Keys["left"] = key;
+	tmpaction = [](CommandQueue& queue, CommandSet& set)
+	{
+		queue.push(set.getCommand("moveleftpressed"));
+	};
+	Keys[*(int*)&(key)] = tmpaction;
+
+	key.myInputType = InputType::KeyboardInput;
+	key.myEventType = sf::Event::KeyReleased;
+	key.myKeyCode = sf::Keyboard::A;
+	tmpaction = [](CommandQueue& queue, CommandSet& set)
+	{
+		queue.push(set.getCommand("moveleftreleased"));
+	};
+	Keys[*(int*)&(key)] = tmpaction;
 
 	key.myInputType = InputType::KeyboardInput;
 	key.myEventType = sf::Event::KeyPressed;
 	key.myKeyCode = sf::Keyboard::D;
-	Keys["right"] = key;
+	tmpaction = [](CommandQueue& queue, CommandSet& set)
+	{
+		queue.push(set.getCommand("moverightpressed"));
+	};
+	Keys[*(int*)&(key)] = tmpaction;
+
+	key.myInputType = InputType::KeyboardInput;
+	key.myEventType = sf::Event::KeyReleased;
+	key.myKeyCode = sf::Keyboard::D;
+	tmpaction = [](CommandQueue& queue, CommandSet& set)
+	{
+		queue.push(set.getCommand("moverightreleased"));
+	};
+	Keys[*(int*)&(key)] = tmpaction;
 
 	key.myInputType = InputType::KeyboardInput;
 	key.myEventType = sf::Event::KeyPressed;
 	key.myKeyCode = sf::Keyboard::W;
-	Keys["up"] = key;
+	tmpaction = [](CommandQueue& queue, CommandSet& set)
+	{
+		queue.push(set.getCommand("moveuppressed"));
+	};
+	Keys[*(int*)&(key)] = tmpaction;
+
+	key.myInputType = InputType::KeyboardInput;
+	key.myEventType = sf::Event::KeyReleased;
+	key.myKeyCode = sf::Keyboard::W;
+	tmpaction = [](CommandQueue& queue, CommandSet& set)
+	{
+		queue.push(set.getCommand("moveupreleased"));
+	};
+	Keys[*(int*)&(key)] = tmpaction;
 
 	key.myInputType = InputType::KeyboardInput;
 	key.myEventType = sf::Event::KeyPressed;
 	key.myKeyCode = sf::Keyboard::S;
-	Keys["down"] = key;
+	tmpaction = [](CommandQueue& queue, CommandSet& set)
+	{
+		queue.push(set.getCommand("movedownpressed"));
+	};
+	Keys[*(int*)&(key)] = tmpaction;
+
+	key.myInputType = InputType::KeyboardInput;
+	key.myEventType = sf::Event::KeyReleased;
+	key.myKeyCode = sf::Keyboard::S;
+	tmpaction = [](CommandQueue& queue, CommandSet& set)
+	{
+		queue.push(set.getCommand("movedownreleased"));
+	};
+	Keys[*(int*)&(key)] = tmpaction;
+
 }
 
-bool Systemkeys::TestEvent(MyKeys k,sf::Event e)
-{
-	//handle mouse event
-	if (k.myInputType == InputType::MouseInput &&
-		k.myEventType == e.type && 
-		k.myMouseButton == e.mouseButton.button)
-	{
-		return true;
-	}
-	
-	//handle keyboard event
-	if (k.myInputType == InputType::KeyboardInput &&
-		k.myEventType == e.type &&
-		k.myKeyCode == e.key.code)
-	{
-		return true;
-	}
-
-	return false;
-}
 
 void Systemkeys::HandleEvent(sf::Event e,CommandQueue& queue,CommandSet& set)
 {
-	if (TestEvent(Keys["left"],e))
+	MyKeys tmp;
+	std::map<int, std::function<void(CommandQueue&, CommandSet&)>>::iterator it;
+	if ((e.type == sf::Event::KeyPressed) || (e.type == sf::Event::KeyReleased))
 	{
-		queue.push(set.getCommand("moveleft"));
+		tmp.myEventType = e.type;
+		tmp.myInputType = InputType::KeyboardInput;
+		tmp.myKeyCode = e.key.code;
+		tmp.myMouseButton = 0;
+		it = Keys.find(*(int*)(&tmp));
+		if (it != Keys.end())
+		{
+			it->second(queue,set);
+		}
 	}
-	if (TestEvent(Keys["right"],e))
+
+	if ((e.type == sf::Event::MouseButtonPressed) || (e.type == sf::Event::MouseButtonReleased))
 	{
-		queue.push(set.getCommand("moveright"));
-	}
-	if (TestEvent(Keys["up"],e))
-	{
-		queue.push(set.getCommand("moveup"));
-	}
-	if (TestEvent(Keys["down"],e))
-	{
-		queue.push(set.getCommand("movedown"));
+		 
 	}
 }
 
-std::map<std::string,MyKeys> Systemkeys::Keys;
+std::map<int, std::function<void(CommandQueue&, CommandSet&)>> Keys;

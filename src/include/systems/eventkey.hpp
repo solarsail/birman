@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <functional>
 
 class CommandQueue;
 class CommandSet;
@@ -12,10 +13,10 @@ enum InputType
 
 struct MyKeys
 {
-    InputType myInputType;
-    sf::Event::EventType myEventType;
-    sf::Keyboard::Key myKeyCode;
-    sf::Mouse::Button myMouseButton;
+	unsigned char myInputType;
+    unsigned char myEventType;
+	unsigned char myKeyCode;
+	unsigned char myMouseButton;
 };
 
 class Systemkeys
@@ -24,7 +25,7 @@ public:
 		Systemkeys();
 		void HandleEvent(sf::Event,CommandQueue&,CommandSet&);
 private:
-		bool TestEvent(MyKeys k,sf::Event e);
-		static std::map<std::string,MyKeys> Keys;
+		std::function<void(CommandQueue&, CommandSet&)> tmpaction;
+		std::map<int,std::function<void(CommandQueue&,CommandSet&)>> Keys;
 		MyKeys key;
 };
