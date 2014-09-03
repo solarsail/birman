@@ -1,3 +1,4 @@
+#include "log/easylogging++.h"
 #include "animation.hpp"
 #include "context.hpp"
 #include "components/position.hpp"
@@ -12,6 +13,8 @@
 #include "systems/command.hpp"
 #include "systems/eventkey.hpp"
 #include "utility.hpp"
+
+_INITIALIZE_EASYLOGGINGPP
 
 GameEntityPtr loadPlayer()
 {
@@ -54,9 +57,16 @@ GameEntityPtr loadPlayer()
 	return player;
 }
 
+void logSetup()
+{
+    el::Configurations defaultConf;
+    defaultConf.setGlobally(el::ConfigurationType::Format, "%datetime [%levshort] [%func|%fbase:%line] %msg");
+    el::Loggers::reconfigureLogger("default", defaultConf);
+}
 
 int main()
 {
+    logSetup();
 	Configuration conf;
 	conf.set(ConfigItem::MapName, std::string("TestMap"));
 	conf.set(ConfigItem::WindowWidth, 480U);

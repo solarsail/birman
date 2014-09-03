@@ -1,3 +1,4 @@
+#include "log/easylogging++.h"
 #include "context.hpp"
 #include "systems/game.hpp"
 #include "systems/render.hpp"
@@ -30,17 +31,24 @@ void Game::processEvents()
         else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
             Direction d = _player->getProperty(Property::Direction);
             int pressed = (event.type == sf::Event::KeyPressed)? 1 : -1;
+#if !defined NDEBUG || defined _DEBUG
+            const char* state = (event.type == sf::Event::KeyPressed)? "Pressed": "Released";
+#endif
             switch (event.key.code) {
                 case sf::Keyboard::W:
+                    LOG(DEBUG) << "Event - Key " << state << ": W";
                     d.setNS(-pressed);
                     break;
                 case sf::Keyboard::S:
+                    LOG(DEBUG) << "Event - Key " << state << ": S";
                     d.setNS(pressed);
                     break;
                 case sf::Keyboard::A:
+                    LOG(DEBUG) << "Event - Key " << state << ": A";
                     d.setWE(-pressed);
                     break;
                 case sf::Keyboard::D:
+                    LOG(DEBUG) << "Event - Key " << state << ": D";
                     d.setWE(pressed);
                     break;
                 default:
