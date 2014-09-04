@@ -4,9 +4,11 @@
 
 Systemkeys::Systemkeys()
 {
+	MyKeys key;
 	key.myInputType = InputType::KeyboardInput;
 	key.myEventType = sf::Event::KeyPressed;
 	key.myKeyCode = sf::Keyboard::A;
+	key.myMouseButton = 0;
 	tmpaction = [](CommandQueue& queue, CommandSet& set)
 	{
 		queue.push(set.getCommand("moveleftpressed"));

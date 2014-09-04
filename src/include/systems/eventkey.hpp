@@ -27,5 +27,5 @@ public:
 private:
 		std::function<void(CommandQueue&, CommandSet&)> tmpaction;
 		std::map<int,std::function<void(CommandQueue&,CommandSet&)>> Keys;
-		MyKeys key;
+		
 };
