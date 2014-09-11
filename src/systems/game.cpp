@@ -57,7 +57,7 @@ void Game::processEvents()
             _player->setProperty(Property::Direction, d);
         }
 #else
-        _systemkey.HandleEvent(event,_cmdqueue,_cmdset);
+		_cmdsystem.HandleEvent(event);
 #endif
     }
 
@@ -101,10 +101,7 @@ int Game::run()
         while (timeSinceLastUpdate > TimePerFrame) {
             timeSinceLastUpdate -= TimePerFrame;
 #ifndef WITHOUT_COMMAND
-            while(!_cmdqueue.isEmpty()) {
-                Command tmp = _cmdqueue.pop();
-                _player->onCommand(tmp);
-            }
+			_cmdsystem.ProcessCmdQueue(_player);
 #endif
             processEvents();
             update(TimePerFrame);

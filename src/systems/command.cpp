@@ -105,6 +105,19 @@ CommandSet::CommandSet()
 	setCommand("moveleftreleased", cmd);
 }
 
+void CommandSystem::HandleEvent(sf::Event event)
+{
+	_systemkey.HandleEvent(event, _cmdqueue, _cmdset);
+}
+
+void CommandSystem::ProcessCmdQueue(GameEntityPtr player)
+{
+	while (!_cmdqueue.isEmpty()) {
+		Command tmp = _cmdqueue.pop();
+		player->onCommand(tmp);
+	}
+}
+
 std::queue<Command> CommandQueue::_mQueue;
 std::map<std::string,Command> CommandSet::_commandset;
 

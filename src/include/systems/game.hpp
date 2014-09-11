@@ -25,7 +25,5 @@ class Game {
 		sf::View _mainView;
 		Map _map;
 		GameEntityPtr _player;
-		Systemkeys _systemkey;
-		CommandQueue _cmdqueue;
-		CommandSet _cmdset;
+		CommandSystem _cmdsystem;
 };

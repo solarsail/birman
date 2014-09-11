@@ -3,18 +3,15 @@
 #include <queue>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include "entity.hpp"
 #include "category.hpp"
+#include "eventkey.hpp"
 
 class GameEntity;
 
 struct Command
 {
 	typedef std::function<void(GameEntity&)> Action;
-
-	//Command();
-	//Command(Category::Type type, Action a);
-	//Command(const CategorySet& types, Action a);
-
 	Action action;
 	CategorySet categoryMask;
 };
@@ -38,4 +35,15 @@ public:
 private:
 	Command cmd;
 	static std::map<std::string,Command> _commandset;
+};
+
+class CommandSystem
+{
+public:
+	void HandleEvent(sf::Event);
+	void ProcessCmdQueue(GameEntityPtr);
+private:
+	Systemkeys _systemkey;
+	CommandQueue _cmdqueue;
+	CommandSet _cmdset;
 };
