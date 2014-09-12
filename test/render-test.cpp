@@ -26,7 +26,7 @@ GameEntityPtr loadPlayer()
 	auto sprite = ComponentFactory::create<AnimatedSpriteComponent>();
 	auto playerTexture = textures.get(TextureID::TestPlayer);
 	playerTexture->setSmooth(true);
-    // 构建动画�?
+    // FIXME: 使用配置文件替换
     AnimationData south({{32, 0, 32, 32}, {64, 0, 32, 32}, {32, 0, 32, 32}, {0, 0, 32, 32}});
     AnimationData west({{32, 32, 32, 32}, {64, 32, 32, 32}, {32, 32, 32, 32}, {0, 32, 32, 32}});
     AnimationData east({{32, 64, 32, 32}, {64, 64, 32, 32}, {32, 64, 32, 32}, {0, 64, 32, 32}});
@@ -48,7 +48,7 @@ GameEntityPtr loadPlayer()
 	player->attachComponent(mov);
 	player->attachComponent(sprite);
 	player->setCategory(Category::Windowview);
-	// 务必最先初始化材质
+	// 保证顺序：texture在动画之前
 	player->setProperty(Property::ObjectTexture, playerTexture);
 	player->setProperty(Property::AniIndex, /*Direction::SOUTH*/(unsigned char)0x10U);
     player->setProperty(Property::WorldPosition, sf::Vector2f(1600, 1600));
