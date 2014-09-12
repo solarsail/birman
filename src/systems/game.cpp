@@ -3,6 +3,8 @@
 #include "systems/game.hpp"
 #include "systems/render.hpp"
 #include "utility.hpp"
+#include <thread>
+#include <chrono>
 
 Game::Game(const Configuration& conf, GameEntityPtr player) :
 	_window(sf::VideoMode(conf.get(ConfigItem::WindowWidth),
@@ -27,40 +29,8 @@ void Game::processEvents()
     while (_window.pollEvent(event)) {
         if(event.type == sf::Event::Closed)
             _window.close();
-#ifdef WITHOUT_COMMAND
-        else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
-            Direction d = _player->getProperty(Property::Direction);
-            int pressed = (event.type == sf::Event::KeyPressed)? 1 : -1;
-#if !defined NDEBUG || defined _DEBUG
-            const char* state = (event.type == sf::Event::KeyPressed)? "Pressed": "Released";
-#endif
-            switch (event.key.code) {
-                case sf::Keyboard::W:
-                    LOG(DEBUG) << "Event - Key " << state << ": W";
-                    d.setNS(-pressed);
-                    break;
-                case sf::Keyboard::S:
-                    LOG(DEBUG) << "Event - Key " << state << ": S";
-                    d.setNS(pressed);
-                    break;
-                case sf::Keyboard::A:
-                    LOG(DEBUG) << "Event - Key " << state << ": A";
-                    d.setWE(-pressed);
-                    break;
-                case sf::Keyboard::D:
-                    LOG(DEBUG) << "Event - Key " << state << ": D";
-                    d.setWE(pressed);
-                    break;
-                default:
-                    break;
-            }
-            _player->setProperty(Property::Direction, d);
-        }
-#else
 		_cmdsystem.HandleEvent(event);
-#endif
     }
-
 }
 
 void Game::update(sf::Time timeDelta)
@@ -87,6 +57,7 @@ void Game::update(sf::Time timeDelta)
 
 int Game::run()
 {
+	std::chrono::milliseconds dura(16);
     GameContext ctx = { _window, _mainView, _map };
     RenderSystem& renderer = RenderSystem::get();
     renderer.init(ctx, _player);
@@ -107,6 +78,7 @@ int Game::run()
             update(TimePerFrame);
         }
         renderer.process(ctx);
+		std::this_thread::sleep_for(dura);
     }
 
     return 0;
