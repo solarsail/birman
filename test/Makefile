@@ -1,6 +1,6 @@
 OBJS := $(patsubst %.cpp, $(OBJDIR)/%.o, $(wildcard *.cpp))
 COMPONENT_OBJ := $(addprefix $(OBJDIR)/, entityfactory.o entity.o component.o command.o category.o eventkey.o)
-TARGETS := $(addprefix $(OUTDIR)/, sfml-test entity-test map-test command-test render-test)
+TARGETS := $(addprefix $(OUTDIR)/, sfml-test entity-test map-test command-test render-test conf-test)
 LINK := g++
 
 $(OBJDIR)/%.o : %.cpp
@@ -22,5 +22,8 @@ $(OUTDIR)/render-test: $(addprefix $(OBJDIR)/, animation.o render-test.o map.o r
 
 $(OUTDIR)/sfml-test: $(OBJDIR)/sfml-test.o
 	$(LINK) -o $@ $^ $(LIBS)
+
+$(OUTDIR)/conf-test: $(OBJDIR)/conf-test.o
+	$(LINK) -o $@ $^ -lconfig++
 
 .PHONY: all
