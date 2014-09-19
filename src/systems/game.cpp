@@ -1,4 +1,3 @@
-#include "log/easylogging++.h"
 #include "context.hpp"
 #include "systems/game.hpp"
 #include "systems/render.hpp"

@@ -8,7 +8,7 @@ int main()
 	tgui::Gui gui(window);
 
 	// Load the font (you should check the return value to make sure that it is loaded)
-	gui.setGlobalFont("DejaVuSans.ttf");
+	gui.setGlobalFont("D:\\SFML_dev\\git\\birman\\Release\\DejaVuSans.ttf");
 
 	while (window.isOpen())
 	{
