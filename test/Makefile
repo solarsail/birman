@@ -1,6 +1,6 @@
 OBJS := $(patsubst %.cpp, $(OBJDIR)/%.o, $(wildcard *.cpp))
 COMPONENT_OBJ := $(addprefix $(OBJDIR)/, entityfactory.o entity.o component.o command.o category.o eventkey.o)
-TARGETS := $(addprefix $(OUTDIR)/, sfml-test entity-test map-test command-test render-test conf-test)
+TARGETS := $(addprefix $(OUTDIR)/, sfml-test entity-test map-test command-test render-test conf-test tgui-test)
 LINK := g++
 
 $(OBJDIR)/%.o : %.cpp
@@ -25,5 +25,6 @@ $(OUTDIR)/sfml-test: $(OBJDIR)/sfml-test.o
 
 $(OUTDIR)/conf-test: $(OBJDIR)/conf-test.o
 	$(LINK) -o $@ $^ -lconfig++
-
+$(OUTDIR)/tgui-test: $(OBJDIR)/tgui-test.o
+	$(LINK) -o $@ $^ -ltgui  -lsfml-graphics -lsfml-window -lsfml-system
 .PHONY: all

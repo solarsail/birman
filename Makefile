@@ -10,9 +10,9 @@ CXXFLAGS := -c -g -std=c++11 -I$(INCLUDE_DIR)
 
 export ROOT OUTDIR OBJDIR CC LIBS CXXFLAGS
 
-.PHONY: sybsystem clean
+.PHONY: subsystem clean
 
-sybsystem:
+subsystem:
 	@$(MAKE) -C src
 	@$(MAKE) -C test
 
