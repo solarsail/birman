@@ -2,11 +2,11 @@
 #include <iostream>
 #include <string>
 
-void loadWidgets( tgui::Gui& gui )
+void loadWidgets( tgui::Gui &gui )
 {
     // Create the background image
     tgui::Picture::Ptr picture(gui);
-    picture->load("../assets/textures/desert-compact.png");
+    picture->load("../assets/textures/Taurus.png");
     picture->setSize(800, 600);
 
     // Create the username label

@@ -18,14 +18,14 @@ _INITIALIZE_EASYLOGGINGPP
 
 GameEntityPtr loadPlayer()
 {
-	auto& textures = TextureHolder::get();
-	auto player = GameEntityFactory::newEntity();
-	auto pos = ComponentFactory::create<PositionComponent>();
-	auto mov = ComponentFactory::create<MovableComponent>();
-//	auto sprite = ComponentFactory::create<SpriteComponent>();
-	auto sprite = ComponentFactory::create<AnimatedSpriteComponent>();
-	auto playerTexture = textures.get(TextureID::TestPlayer);
-	playerTexture->setSmooth(true);
+    auto &textures = TextureHolder::get();
+    auto player = GameEntityFactory::newEntity();
+    auto pos = ComponentFactory::create<PositionComponent>();
+    auto mov = ComponentFactory::create<MovableComponent>();
+    //  auto sprite = ComponentFactory::create<SpriteComponent>();
+    auto sprite = ComponentFactory::create<AnimatedSpriteComponent>();
+    auto playerTexture = textures.get(TextureID::TestPlayer);
+    playerTexture->setSmooth(true);
     // FIXME: 使用配置文件替换
     AnimationData south({{32, 0, 32, 32}, {64, 0, 32, 32}, {32, 0, 32, 32}, {0, 0, 32, 32}});
     AnimationData west({{32, 32, 32, 32}, {64, 32, 32, 32}, {32, 32, 32, 32}, {0, 32, 32, 32}});
@@ -44,17 +44,17 @@ GameEntityPtr loadPlayer()
     sprite->addAnimation(Direction::NE   , ne);
     sprite->addAnimation(Direction::SE   , se);
 
-	player->attachComponent(pos);
-	player->attachComponent(mov);
-	player->attachComponent(sprite);
-	player->setCategory(Category::Windowview);
-	// 保证顺序：texture在动画之前
-	player->setProperty(Property::ObjectTexture, playerTexture);
-	player->setProperty(Property::AniIndex, /*Direction::SOUTH*/(unsigned char)0x10U);
+    player->attachComponent(pos);
+    player->attachComponent(mov);
+    player->attachComponent(sprite);
+    player->setCategory(Category::Windowview);
+    // 保证顺序：texture在动画之前
+    player->setProperty(Property::ObjectTexture, playerTexture);
+    player->setProperty(Property::AniIndex, /*Direction::SOUTH*/(unsigned char)0x10U);
     player->setProperty(Property::WorldPosition, sf::Vector2f(1600, 1600));
-	player->setProperty(Property::Speed, 64.f);
+    player->setProperty(Property::Speed, 64.f);
 
-	return player;
+    return player;
 }
 
 void logSetup()
@@ -67,16 +67,16 @@ void logSetup()
 int main()
 {
     logSetup();
-	Configuration conf;
-	conf.set(ConfigItem::MapName, std::string("TestMap"));
-	conf.set(ConfigItem::WindowWidth, 480U);
-	conf.set(ConfigItem::WindowHeight, 320U);
-	conf.set(ConfigItem::WindowTitle, std::string("Map Render Test"));
+    Configuration conf;
+    conf.set(ConfigItem::MapName, std::string("TestMap"));
+    conf.set(ConfigItem::WindowWidth, 480U);
+    conf.set(ConfigItem::WindowHeight, 320U);
+    conf.set(ConfigItem::WindowTitle, std::string("Map Render Test"));
 
-	auto& textures = TextureHolder::get();
-	textures.load(TextureID::TestPlayer, "../assets/textures/player.png");
+    auto &textures = TextureHolder::get();
+    textures.load(TextureID::TestPlayer, "../assets/textures/player.png");
 
-	Game game(conf, loadPlayer());
-	return game.run();
+    Game game(conf, loadPlayer());
+    return game.run();
 }
 

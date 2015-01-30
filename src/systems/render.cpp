@@ -1,46 +1,49 @@
 #include "components/component.hpp"
 #include "systems/render.hpp"
 
-RenderSystem& RenderSystem::get()
+RenderSystem &RenderSystem::get()
 {
     static RenderSystem instance;
     return instance;
 }
 
 RenderSystem::RenderSystem() { }
-RenderSystem::~RenderSystem() 
+RenderSystem::~RenderSystem()
 {
     if (_mapSlicePtr)
         delete _mapSlicePtr;
 }
 
-void RenderSystem::setMap(Map& map)
+void RenderSystem::setMap(Map &map)
 {
     _terrainPtr = &map;
 }
 
-void RenderSystem::init(GameContext& ctx, GameEntityPtr player)
+void RenderSystem::init(GameContext &ctx, GameEntityPtr player)
 {
     _terrainPtr = &(ctx.map);
-    sf::View& view = ctx.mainView;
-	auto viewsize = view.getSize();
+    sf::View &view = ctx.mainView;
+    auto viewsize = view.getSize();
     _player = player;
     _lastCenter = _player->getProperty(Property::WorldPosition);
     view.setCenter(_lastCenter);
-	// 预加载view四倍尺寸的地图块
+    // 预加载view四倍尺寸的地图块
     _mapSlicePtr = new MapSlice(viewsize.x * 4 / _terrainPtr->tileWidth(), viewsize.y * 4 / _terrainPtr->tileHeight(), *_terrainPtr);
     reloadMapSlice(_lastCenter - view.getSize() * 2.f);
-	_reloadBound = _mapSlicePtr->reloadBound(viewsize);
+    _reloadBound = _mapSlicePtr->reloadBound(viewsize);
 }
 
-void RenderSystem::process(GameContext& ctx)
+void RenderSystem::process(GameContext &ctx)
 {
-    sf::View& view = ctx.mainView;
+    sf::View &view = ctx.mainView;
     sf::Vector2f center = _player->getProperty(Property::WorldPosition);
-    if (!_reloadBound.contains(center)) {
+    if (!_reloadBound.contains(center))
+    {
         reloadMapSlice(center - view.getSize() / 2.f);
         view.setCenter(center);
-    } else {
+    }
+    else
+    {
         view.move(center - _lastCenter);
         _lastCenter = center;
     }
@@ -50,10 +53,11 @@ void RenderSystem::process(GameContext& ctx)
     ctx.window.setView(view);
     ctx.window.draw(*_mapSlicePtr);
     // TODO: draw objects, player, etc.
-	for (const GameEntityPtr& ep : _objects) {
-		sf::Drawable* sp = ep->getProperty(Property::Drawable);
-		ctx.window.draw(*sp);
-	}
+    for (const GameEntityPtr &ep : _objects)
+    {
+        sf::Drawable *sp = ep->getProperty(Property::Drawable);
+        ctx.window.draw(*sp);
+    }
     ctx.window.display();
 }
 

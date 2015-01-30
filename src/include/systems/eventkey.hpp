@@ -13,19 +13,18 @@ enum InputType
 
 struct MyKeys
 {
-	unsigned char myInputType;
+    unsigned char myInputType;
     unsigned char myEventType;
-	unsigned char myKeyCode;
-	unsigned char myMouseButton;
+    unsigned char myKeyCode;
+    unsigned char myMouseButton;
 };
 
 class Systemkeys
 {
 public:
-		Systemkeys();
-		void HandleEvent(sf::Event,CommandQueue&,CommandSet&);
+    Systemkeys();
+    void HandleEvent(sf::Event, CommandQueue &, CommandSet &);
 private:
-		std::function<void(CommandQueue&, CommandSet&)> tmpaction;
-		std::map<int,std::function<void(CommandQueue&,CommandSet&)>> Keys;
-		
+    std::function<void(CommandQueue &, CommandSet &)> tmpaction;
+    std::map<int, std::function<void(CommandQueue &, CommandSet &)>> Keys;
 };
